@@ -76,6 +76,7 @@
         ],
         "react/prop-types": 0,
         "react/require-default-props": 0,
+        "@typescript-eslint/no-empty-object-type": 0,
         "immer/no-update-map": "error",
         "import/first": "error",
         "import/newline-after-import": "error",

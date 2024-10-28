@@ -11,7 +11,13 @@ const config: Config = {
       container: {
         center: true,
       },
+      fontFamily: {
+        'ubuntu-sans': ['var(--font-ubuntu-sans)', 'sans'],
+      },
       colors: {
+        pink: {
+          DEFAULT: '#cc3cf2',
+        },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
