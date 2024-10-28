@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      container: {
+        center: true,
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
