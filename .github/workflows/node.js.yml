@@ -1,4 +1,4 @@
-name: Node.js CI
+name: CI Workflow
 
 on:
   push:
@@ -7,24 +7,33 @@ on:
     branches: ['main']
 
 jobs:
-  build:
+  cache-and-install:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
           cache: 'pnpm'
-      - name: Enable corepack (for pnpm)
-        run: corepack enable
-      - name: Install dependencies
+
+      - name: Install PNPM
         run: npm install -g pnpm
-      - run: pnpm install
-      - run: pnpm lint
-      - run: pnpm run build --if-present
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check Lint
+        run: pnpm run lint
+
+      - name: Build
+        run: pnpm run build
