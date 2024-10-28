@@ -16,16 +16,6 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -154,11 +144,13 @@ const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className={`
-        flex items-center gap-4
+      <div
+        className={`
+          flex items-center gap-4
 
-        lg:hidden
-      `}>
+          lg:hidden
+        `}
+      >
         <SlidersHorizontal className="size-6" />
         <Avatar className="size-8 rounded-lg">
           <AvatarImage src="https://github.com/shadcn.png" />
