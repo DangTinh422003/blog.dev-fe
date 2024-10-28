@@ -3,7 +3,7 @@ const DesktopMenu = () => {
     <div
       className={`
         fixed left-0 top-16 hidden h-screen overflow-y-auto overflow-x-hidden
-        bg-blue-500
+        border-r
 
         lg:w-60
 

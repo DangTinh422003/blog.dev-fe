@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="container bg-green-400">
+    <div className="bg-green-400">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
       suscipit ullam commodi incidunt ipsa id eaque voluptates, veniam
       accusantium laborum animi, debitis labore consequuntur. Mollitia vero
