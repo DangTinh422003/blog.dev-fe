@@ -24,6 +24,7 @@ jobs:
       - name: Enable corepack (for pnpm)
         run: corepack enable
       - name: Install dependencies
-        run: pnpm install
+        run: npm install -g pnpm
+      - run: pnpm install
       - run: pnpm lint
       - run: pnpm run build --if-present
