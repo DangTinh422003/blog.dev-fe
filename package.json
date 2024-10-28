@@ -15,10 +15,9 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@typescript-eslint/parser": "^8.11.0",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-immer": "^0.0.1",
     "eslint-plugin-import": "^2.31.0",
@@ -30,6 +29,7 @@
     "eslint-plugin-readable-tailwind": "^1.8.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-tailwindcss": "^3.17.5",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.453.0",
     "next": "15.0.1",
     "prettier-plugin-tailwindcss": "^0.6.8",
@@ -39,6 +39,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.12",
     "@types/node": "^20.17.1",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

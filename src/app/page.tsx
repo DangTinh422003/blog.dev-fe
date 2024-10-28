@@ -1,20 +1,24 @@
-import Image from "next/image";
+import Image from 'next/image'
 
 export default function Home() {
   return (
-    <div className={`
-      grid min-h-screen grid-rows-[20px_1fr_20px] items-center
-      justify-items-center gap-16 p-8 pb-20
+    <div
+      className={`
+        grid min-h-screen grid-rows-[20px_1fr_20px] items-center
+        justify-items-center gap-16 p-8 pb-20
 
-      font-[family-name:var(--font-geist-sans)]
+        font-[family-name:var(--font-geist-sans)]
 
-      sm:p-20
-    `}>
-      <main className={`
-        row-start-2 flex flex-col items-center gap-8
+        sm:p-20
+      `}
+    >
+      <main
+        className={`
+          row-start-2 flex flex-col items-center gap-8
 
-        sm:items-start
-      `}>
+          sm:items-start
+        `}
+      >
         <Image
           className="dark:invert"
           src="/next.svg"
@@ -23,20 +27,24 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol className={`
-          list-inside list-decimal text-center text-sm
+        <ol
+          className={`
+            list-inside list-decimal text-center text-sm
 
-          font-[family-name:var(--font-geist-mono)]
+            font-[family-name:var(--font-geist-mono)]
 
-          sm:text-left
-        `}>
+            sm:text-left
+          `}
+        >
           <li className="mb-2">
-            Get started by editing{" "}
-            <code className={`
-              rounded bg-black/[.05] px-1 py-0.5 font-semibold
+            Get started by editing{' '}
+            <code
+              className={`
+                rounded bg-black/[.05] px-1 py-0.5 font-semibold
 
-              dark:bg-white/[.06]
-            `}>
+                dark:bg-white/[.06]
+              `}
+            >
               src/app/page.tsx
             </code>
             .
@@ -44,11 +52,13 @@ export default function Home() {
           <li>Save and see your changes instantly.</li>
         </ol>
 
-        <div className={`
-          flex flex-col items-center gap-4
+        <div
+          className={`
+            flex flex-col items-center gap-4
 
-          sm:flex-row
-        `}>
+            sm:flex-row
+          `}
+        >
           <a
             className={`
               flex h-10 items-center justify-center gap-2 rounded-full border
@@ -93,9 +103,11 @@ export default function Home() {
           </a>
         </div>
       </main>
-      <footer className={`
+      <footer
+        className={`
         row-start-3 flex flex-wrap items-center justify-center gap-6
-      `}>
+      `}
+      >
         <a
           className={`
             flex items-center gap-2
@@ -155,5 +167,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  );
+  )
 }
