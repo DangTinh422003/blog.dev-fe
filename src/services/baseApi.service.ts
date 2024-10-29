@@ -1,11 +1,11 @@
-import HttpService from './http.service'
+import HttpService from './http.service';
 
 class BaseApiService {
-  protected httpClient: HttpService
+  protected httpClient: HttpService;
 
   constructor() {
-    this.httpClient = new HttpService()
+    this.httpClient = new HttpService();
   }
 }
 
-export default BaseApiService
+export default BaseApiService;

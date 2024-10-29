@@ -11,12 +11,12 @@ const axiosConfigs = {
     baseURL: 'http://localhost:3001/api/',
     timeout: 10000,
   },
-}
+};
 const getAxiosConfig = (): AxiosRequestConfig => {
-  const nodeEnv: string = process.env.NODE_ENV
-  return axiosConfigs[nodeEnv as keyof typeof axiosConfigs]
-}
+  const nodeEnv: string = process.env.NODE_ENV;
+  return axiosConfigs[nodeEnv as keyof typeof axiosConfigs];
+};
 
-const axiosConfig = getAxiosConfig()
+const axiosConfig = getAxiosConfig();
 
-export default axiosConfig
+export default axiosConfig;

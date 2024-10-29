@@ -2,4 +2,4 @@ enum StoreKeys {
   ACCESS_TOKEN = 'accessToken',
 }
 
-export default StoreKeys
+export default StoreKeys;

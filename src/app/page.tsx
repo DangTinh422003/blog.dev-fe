@@ -321,5 +321,5 @@ export default function Home() {
       facere quae sed quos, doloribus eaque architecto dicta modi optio quidem?
       Natus, provident?
     </div>
-  )
+  );
 }

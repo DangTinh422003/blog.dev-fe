@@ -10,12 +10,12 @@ import {
   UserCog,
   UserPlus,
   Zap,
-} from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,8 +23,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 
 const menuItems = [
   {
@@ -51,7 +51,7 @@ const menuItems = [
     icon: LogOut,
     label: 'Sign out',
   },
-]
+];
 
 const Header = () => {
   return (
@@ -163,7 +163,7 @@ const Header = () => {
         </Avatar>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

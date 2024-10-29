@@ -1,3 +1,3 @@
-const formatNumber = () => {}
+const formatNumber = () => {};
 
-export default formatNumber
+export default formatNumber;
