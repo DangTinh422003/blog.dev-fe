@@ -9,25 +9,24 @@ import {
   Link,
   MessageSquareText,
 } from 'lucide-react';
+import moment from 'moment';
 import Image from 'next/image';
 import React from 'react';
+
+import { kFormatter } from '@/utils/formatNumber.util';
 
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
-const title: string[] = [
-  'Understand',
-  'and',
-  'Using',
-  'Javascript',
-  'Console',
-  'Api',
-];
-const BlogItem = () => {
+const BlogItem = ({ blog }) => {
   const [hover, setHover] = React.useState(false);
   return (
     <article
-      className="rounded-lg border px-[16px] py-[24px] border-opacity/25"
+      className={`
+        rounded-lg border px-[16px] py-[24px] border-opacity/25 flex flex-col
+
+        lg:bg-[#1c1f26]
+      `}
       onMouseEnter={() => {
         setHover(true);
       }}
@@ -56,9 +55,7 @@ const BlogItem = () => {
             />
           </Avatar>
           <div className="flex flex-col">
-            <p className="author-name font-bold text-primary">
-              Community picks
-            </p>
+            <p className="author-name font-bold text-primary">{blog.name}</p>
             <div
               className={`
                 flex gap-[5px] text-[13px] text-[#A8B3CF]
@@ -66,9 +63,11 @@ const BlogItem = () => {
                 lg:hidden
               `}
             >
-              <span className="read-time">2m read time</span>
+              <span className="read-time">{blog.readTime}</span>
               <span>.</span>
-              <span className="">Sep 19</span>
+              <span className="">
+                {moment(blog.createdAt).format('MMM Do')}
+              </span>
             </div>
           </div>
         </div>
@@ -124,7 +123,7 @@ const BlogItem = () => {
       </div>
       <div
         className={`
-          flex flex-col justify-between gap-[5px]
+          flex flex-1 flex-col justify-between gap-[5px]
 
           lg:flex-col
 
@@ -133,16 +132,14 @@ const BlogItem = () => {
       >
         <div
           className={`
-            mt-[16px] flex flex-col justify-between
+            mt-[16px] flex flex-1 flex-col justify-between
 
             lg:px-[10px]
           `}
         >
-          <h1 className="text-[20px] font-bold">
-            Understand and Using Javascript Console Api
-          </h1>
-          <div className="mt-[16px] flex flex-wrap gap-[5px] text-[#A8B3CF]">
-            {title.map((item, index) => {
+          <h1 className="mb-[16px] text-[20px] font-bold">{blog.title}</h1>
+          <div className="mt-auto flex flex-wrap gap-[5px] text-[#A8B3CF]">
+            {blog.category.map((item, index) => {
               return (
                 <div key={index} className="rounded-md border px-[8px]">
                   #{item}
@@ -157,13 +154,13 @@ const BlogItem = () => {
               lg:flex
             `}
           >
-            <span className="read-time">2m read time</span>
+            <span className="read-time">{blog.readTime}</span>
             <span>.</span>
-            <span className="">Sep 19</span>
+            <span className=""> {moment(blog.createdAt).format('MMM Do')}</span>
           </div>
         </div>
         <Image
-          src="https://i.pinimg.com/736x/b1/0c/fb/b10cfb56a87e574d9f2cec10c90d2fc8.jpg"
+          src={blog.image}
           alt=""
           width={240}
           height={160}
@@ -193,7 +190,7 @@ const BlogItem = () => {
             `}
           >
             <ArrowBigUp size={24} />
-            <span>183</span>
+            <span>{kFormatter(blog.upVote)}</span>
           </div>
           <div className="h-[15px] w-px bg-white opacity-25"></div>
           <div
@@ -205,7 +202,7 @@ const BlogItem = () => {
             `}
           >
             <ArrowBigDown size={24} />
-            <span>13</span>
+            <span>{kFormatter(blog.downVote)}</span>
           </div>
         </div>
         <div
@@ -224,7 +221,7 @@ const BlogItem = () => {
             `}
           >
             <MessageSquareText size={24} className="hover:bg-[#0dcfdc3d]" />
-            <span>13</span>
+            <span>{kFormatter(blog.comment)}</span>
           </div>
         </div>
         <div
