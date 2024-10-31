@@ -30,26 +30,27 @@ const menuItems = [
   {
     icon: UserCog,
     label: 'Profile',
+    href: '/profile',
   },
   {
     icon: Pencil,
     label: 'Account details',
+    href: '/account-details',
   },
   {
     icon: Zap,
     label: 'Reputation',
+    href: '/reputation',
   },
   {
     icon: UserPlus,
     label: 'Invite friends',
+    href: '/invite-friends',
   },
   {
     icon: Settings,
     label: 'Settings',
-  },
-  {
-    icon: LogOut,
-    label: 'Sign out',
+    href: '/settings',
   },
 ];
 
@@ -141,11 +142,22 @@ const Header = () => {
                   flex cursor-pointer items-center gap-2 text-muted-foreground
                 `}
                 key={item.label}
+                asChild
               >
-                <item.icon />
-                <p>{item.label}</p>
+                <Link href={item.href}>
+                  <item.icon />
+                  <p>{item.label}</p>
+                </Link>
               </DropdownMenuItem>
             ))}
+            <DropdownMenuItem
+              className={`
+                flex cursor-pointer items-center gap-2 text-muted-foreground
+              `}
+            >
+              <LogOut />
+              <p>Sign out</p>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

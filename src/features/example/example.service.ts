@@ -10,6 +10,7 @@ class ExampleApiService extends HttpService {
       baseURL: 'https://64c3cfbd67cfdca3b66051f9.mockapi.io/',
     });
   }
+
   getExamples() {
     return this.get<Example[]>('/product');
   }
