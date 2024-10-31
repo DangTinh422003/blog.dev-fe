@@ -1,9 +1,24 @@
-import { Settings2 } from 'lucide-react';
+'use client';
 
-import BlogItem from '@/components/home/blog';
+import { ChevronUp, Settings2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
+import { Toaster } from '@/components/ui/sonner';
 
-const data = [
+const data: {
+  name: string;
+  title: string;
+  avatar: string;
+  category: string[];
+  readTime: string;
+  createdAt: Date;
+  image: string;
+  upVote: number;
+  downVote: number;
+  comment: number;
+}[] = [
   {
     name: 'Nguyen Khanh Huan',
     title: 'Understand and Using Javascript Console Api',
@@ -62,8 +77,68 @@ const data = [
     downVote: 5,
     comment: 20000,
   },
+  {
+    name: 'Cao Dang Tinh',
+    title:
+      'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
+    avatar:
+      'https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community',
+    category: ['Understand', 'and', 'Using'],
+    readTime: '2 min read',
+    createdAt: new Date(),
+    image:
+      'https://i.pinimg.com/564x/19/25/6d/19256daeaca8505c5f782746c6ed2375.jpg',
+    upVote: 3000,
+    downVote: 40000,
+    comment: 15000,
+  },
+  {
+    name: 'Truong Thai Dan Huy',
+    title: 'Understand and Using Javascript Console Api Understand',
+    avatar:
+      'https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community',
+    category: ['Understand', 'and', 'Using'],
+    readTime: '2 min read',
+    createdAt: new Date(),
+    image:
+      'https://i.pinimg.com/564x/87/5b/6b/875b6baa127ca5dbf1e2aa025a8b892b.jpg',
+    upVote: 3000,
+    downVote: 5,
+    comment: 2000,
+  },
+  {
+    name: 'Truong Dinh Van',
+    title:
+      'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
+    avatar:
+      'https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community',
+    category: ['Understand', 'and', 'Using', 'Javascript', 'Console', 'Api'],
+    readTime: '2 min read',
+    createdAt: new Date(),
+    image:
+      'https://i.pinimg.com/564x/19/25/6d/19256daeaca8505c5f782746c6ed2375.jpg',
+    upVote: 3000,
+    downVote: 5,
+    comment: 20000,
+  },
 ];
 export default function Home() {
+  const [showTopPage, setShowTopPage] = useState(false);
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 200) {
+        setShowTopPage(true);
+      } else {
+        setShowTopPage(false);
+      }
+    });
+    return () => {
+      window.removeEventListener('scroll', () => {});
+    };
+  }, []);
+  const handleClickToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <div className="lg:px-[30px]">
       <div className="mb-[24px] flex justify-between">
@@ -119,6 +194,24 @@ export default function Home() {
           <BlogItem key={index} blog={item} />
         ))}
       </div>
+      <div
+        className={`
+          fixed bottom-[10px] right-[10px] size-[32px] rounded-xl flex-center
+          cursor-pointer bg-white text-black
+
+          hover:opacity-90
+
+          md:size-[64px]
+
+          sm:size[48px]
+
+          ${showTopPage ? 'flex' : 'hidden'}
+        `}
+        onClick={handleClickToTop}
+      >
+        <ChevronUp size={32} />
+      </div>
+      <Toaster />
     </div>
   );
 }

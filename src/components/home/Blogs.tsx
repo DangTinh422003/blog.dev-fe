@@ -12,14 +12,78 @@ import {
 import moment from 'moment';
 import Image from 'next/image';
 import React from 'react';
+import { toast } from 'sonner';
 
 import { kFormatter } from '@/utils/formatNumber.util';
 
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 
-const BlogItem = ({ blog }) => {
+const BlogItem = ({
+  blog,
+}: {
+  blog: {
+    name: string;
+    readTime: string;
+    createdAt: Date;
+    title: string;
+    category: string[];
+    upVote: number;
+    downVote: number;
+    image: string;
+    comment: number;
+  };
+}) => {
   const [hover, setHover] = React.useState(false);
+  const [showUpVote, setShowUpVote] = React.useState(false);
+  const [showDownVote, setShowDownVote] = React.useState(false);
+  const [showBookmark, setShowBookmark] = React.useState(false);
+
+  const handleUpVote = () => {
+    if (showUpVote) {
+      setShowUpVote(false);
+    }
+    if (showDownVote) {
+      setShowDownVote(false);
+    }
+    if (!showUpVote) {
+      setShowUpVote(true);
+    }
+  };
+  const handleDownVote = () => {
+    if (showDownVote) {
+      setShowDownVote(false);
+    }
+    if (showUpVote) {
+      setShowUpVote(false);
+    }
+    if (!showDownVote) {
+      setShowDownVote(true);
+    }
+  };
+  const handleBookmark = () => {
+    if (showBookmark) {
+      setShowBookmark(false);
+      toast.success('Blog was removed from bookmark', {
+        description: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        action: {
+          label: 'Undo',
+          onClick: () => {},
+        },
+      });
+    }
+    if (!showBookmark) {
+      setShowBookmark(true);
+      toast.success('Blog was added to bookmark', {
+        description: moment().format('MMMM Do YYYY, h:mm:ss a'),
+        action: {
+          label: 'Undo',
+          onClick: () => {},
+        },
+      });
+    }
+  };
+
   return (
     <article
       className={`
@@ -184,10 +248,13 @@ const BlogItem = ({ blog }) => {
           <div
             className={`
               flex items-center rounded-lg bg-transparent p-1 px-[5px]
-              text-[15px] text-[#A8B3CF]
+              text-[15px]
+
+              ${showUpVote ? 'text-[#39e58c]' : 'text-[#A8B3CF]'}
 
               hover:bg-[#1ddc6f3d] hover:text-[#39e58c]
             `}
+            onClick={handleUpVote}
           >
             <ArrowBigUp size={24} />
             <span>{kFormatter(blog.upVote)}</span>
@@ -196,10 +263,13 @@ const BlogItem = ({ blog }) => {
           <div
             className={`
               flex items-center rounded-lg bg-transparent p-1 px-[5px]
-              text-[15px] text-[#A8B3CF]
+              text-[15px]
+
+              ${showDownVote ? 'text-[#e04337]' : 'text-[#A8B3CF]'}
 
               hover:bg-[#d52b203d] hover:text-[#e04337]
             `}
+            onClick={handleDownVote}
           >
             <ArrowBigDown size={24} />
             <span>{kFormatter(blog.downVote)}</span>
@@ -234,10 +304,12 @@ const BlogItem = ({ blog }) => {
           <div
             className={`
               flex items-center rounded-lg bg-transparent p-1 text-[15px]
-              text-[#A8B3CF]
+
+              ${showBookmark ? 'text-[#ff8e3b]' : 'text-[#A8B3CF]'}
 
               hover:bg-[#ff7a2b3d] hover:text-[#ff8e3b]
             `}
+            onClick={handleBookmark}
           >
             <Bookmark size={24} />
           </div>
