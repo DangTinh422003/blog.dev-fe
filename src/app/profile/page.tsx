@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <div className="mx-auto max-w-6xl border rounded-md px-6 py-2">
+    <div className="mx-auto max-w-6xl rounded-md border px-6 py-2">
       <p>Profile</p>
       <div>
         <p>Profile Picture</p>
