@@ -29,6 +29,14 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --text-gray: 223, 29%, 74%;
+    --lightgray: 222 15% 13%;
+    --like: 149, 77%, 56%;
+    --unlike: 4, 73%, 55%;
+    --bookmark: 25, 100%, 62%;
+    --comment: 184, 89%, 46%, 0.24;
+    --action-text: 0, 0%, 100%;
+    --button-hover-background: 223, 29%, 74%, 0.12;
   }
 
   .dark {
@@ -56,6 +64,15 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --text-gray: 223, 29%, 74%;
+    --lightgray: 222 15% 13%;
+    --like: 146, 77%, 49%, 0.24;
+    --unlike: 4, 74%, 48%, 0.24;
+    --comment: 184, 89%, 46%, 0.24;
+    --bookmark: 25, 100%, 62%;
+    --link-copy: 286, 87%, 55%, 0.24;
+    --action-text: 0, 0%, 100%;
+    --button-hover-background: 223, 29%, 74%, 0.12;
   }
 }
 
