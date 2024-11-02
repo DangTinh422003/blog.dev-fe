@@ -93,7 +93,7 @@ const DropdownMenuContent = React.forwardRef<
       className={cn(
         `
           z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1
-          text-popover-foreground shadow-md
+          shadow-md
 
           data-[side=bottom]:slide-in-from-top-2
 

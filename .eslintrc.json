@@ -28,6 +28,9 @@
         "readable-tailwind"
       ],
       "rules": {
+        "@typescript-eslint/no-empty-object-type": "warn",
+        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-unused-vars": "warn",
         "tailwindcss/no-custom-classname": 0,
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
@@ -48,7 +51,6 @@
             "ignorePropertyModificationsForRegex": ["^draft", "state"]
           }
         ],
-        "@typescript-eslint/no-empty-object-type": 0,
         "@typescript-eslint/no-unsafe-argument": 0,
         "@typescript-eslint/no-unsafe-assignment": 0,
         "@typescript-eslint/no-unsafe-member-access": 0,

@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   darkMode: 'class',
@@ -11,9 +11,7 @@ const config: Config = {
       container: {
         center: true,
       },
-      fontFamily: {
-        'ubuntu-sans': ['var(--font-ubuntu-sans)', 'sans'],
-      },
+      fontFamily: {},
       colors: {
         pink: {
           DEFAULT: '#cc3cf2',
@@ -67,5 +65,5 @@ const config: Config = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-}
-export default config
+};
+export default config;

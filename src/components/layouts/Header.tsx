@@ -14,6 +14,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { ModeToggle } from '@/components/ToggleTheme';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -59,17 +60,17 @@ const Header = () => {
     <div
       className={`
         sticky left-0 top-0 z-30 flex h-16 w-full items-center justify-between
-        border-b border-pink bg-background px-4
+        border-b bg-background px-4
       `}
     >
-      <Link href={'/'} className="flex-1 select-none">
-        <p className="text-3xl font-bold text-primary">
-          Blog<span className="text-3xl text-pink">.dev</span>
+      <Link href={'/'} className="flex-1 select-none text-2xl">
+        <p className="font-bold text-primary">
+          Blog<span className="text-pink">.dev</span>
         </p>
       </Link>
       <div
         className={`
-          hidden w-96 flex-1 items-center gap-0 rounded-lg bg-[#1c1f26] px-2
+          hidden w-96 flex-1 items-center gap-0 rounded-lg bg-secondary px-2
 
           lg:flex
         `}
@@ -85,16 +86,11 @@ const Header = () => {
         `}
       >
         <Button className="px-6">New post</Button>
-        <Button
-          className="flex-center size-10 rounded-lg bg-muted"
-          variant={'secondary'}
-        >
+        <ModeToggle />
+        <Button variant="outline" className="flex-center size-10 rounded-lg">
           <LayoutList />
         </Button>
-        <Button
-          className="flex-center size-10 rounded-lg bg-muted"
-          variant={'secondary'}
-        >
+        <Button variant="outline" className="flex-center size-10 rounded-lg">
           <Bell />
         </Button>
 
@@ -126,7 +122,7 @@ const Header = () => {
               <div className="mt-2">
                 <p className="text-xl font-bold">Cao Dang Tinh</p>
                 <p
-                  className={`flex items-center gap-1 text-xs text-[#cfd6e6]/70`}
+                  className={`flex items-center gap-1 text-xs text-foreground/70`}
                 >
                   <span>@caodangtinh</span>
                   <span>•</span>
@@ -138,9 +134,7 @@ const Header = () => {
 
             {menuItems.map((item) => (
               <DropdownMenuItem
-                className={`
-                  flex cursor-pointer items-center gap-2 text-muted-foreground
-                `}
+                className={`flex cursor-pointer items-center gap-2`}
                 key={item.label}
                 asChild
               >
@@ -151,9 +145,7 @@ const Header = () => {
               </DropdownMenuItem>
             ))}
             <DropdownMenuItem
-              className={`
-                flex cursor-pointer items-center gap-2 text-muted-foreground
-              `}
+              className={`flex cursor-pointer items-center gap-2`}
             >
               <LogOut />
               <p>Sign out</p>
