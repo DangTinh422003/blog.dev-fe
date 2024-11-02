@@ -79,9 +79,9 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       className={`
         group rounded-lg border px-4 py-6 border-opacity/25 flex flex-col
 
-        hover:bg-lightgray
+        hover:bg-secondary
 
-        lg:bg-lightgray
+        lg:bg-secondary
       `}
     >
       <div
@@ -136,7 +136,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-buttonHover hover:text-primary
 
-              lg:hidden lg:bg-white lg:text-background lg:group-hover:flex
+              lg:hidden lg:bg-primary lg:text-background lg:group-hover:flex
             `}
           >
             <span
@@ -237,7 +237,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
       </div>
       <div
         className={`
-          mt-4 flex gap-2
+          mt-4 flex gap-1
 
           lg:justify-between
         `}
@@ -307,8 +307,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         <div className={`flex items-center rounded-lg`}>
           <div
             className={`
-              flex items-center rounded-lg bg-transparent p-2 text-sm
-              text-textGray
+              flex cursor-pointer items-center rounded-lg bg-transparent p-2
+              text-sm text-textGray
 
               hover:bg-linkCopy hover:text-actionTxt
             `}

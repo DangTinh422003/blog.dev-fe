@@ -18,7 +18,6 @@ const config: Config = {
         },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        lightgray: 'hsl(var(--lightgray))',
         textGray: 'hsl(var(--text-gray))',
         like: 'hsl(var(--like))',
         unlike: 'hsl(var(--unlike))',
