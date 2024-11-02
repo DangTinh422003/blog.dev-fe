@@ -280,8 +280,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         <div className={`flex cursor-pointer items-center rounded-lg`}>
           <div
             className={`
-              flex items-center rounded-lg bg-transparent p-2 text-sm
-              text-textGray
+              flex items-center gap-1 rounded-lg bg-transparent p-2 text-sm
+              font-medium text-textGray
 
               hover:bg-comment hover:text-actionTxt
             `}
