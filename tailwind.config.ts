@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   darkMode: 'class',
@@ -20,6 +20,15 @@ const config: Config = {
         },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        lightgray: 'hsl(var(--lightgray))',
+        textGray: 'hsl(var(--text-gray))',
+        like: 'hsl(var(--like))',
+        unlike: 'hsl(var(--unlike))',
+        comment: 'hsl(var(--comment))',
+        bookmark: 'hsl(var(--bookmark))',
+        linkCopy: 'hsl(var(--link-copy))',
+        actionTxt: 'hsl(var(--action-text))',
+        buttonHover: 'hsl(var(--button-hover-background))',
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
@@ -67,5 +76,5 @@ const config: Config = {
     },
   },
   plugins: [require('tailwindcss-animate')],
-}
-export default config
+};
+export default config;

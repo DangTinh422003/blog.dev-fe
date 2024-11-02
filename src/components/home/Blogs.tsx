@@ -6,108 +6,94 @@ import {
   Bookmark,
   Ellipsis,
   ExternalLink,
-  Link,
+  Link as LinkIcon,
   MessageSquareText,
 } from 'lucide-react';
 import moment from 'moment';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
-import { toast } from 'sonner';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { ToastAction } from '@/components/ui/toast';
+import { Toggle } from '@/components/ui/toggle';
+import { useToast } from '@/hooks/use-toast';
 import { kFormatter } from '@/utils/formatNumber.util';
 
-import { Avatar, AvatarImage } from '../ui/avatar';
-import { Button } from '../ui/button';
-
-const BlogItem = ({
-  blog,
-}: {
+interface BlogItemProps {
   blog: {
+    id: string;
     name: string;
-    readTime: string;
-    createdAt: Date;
     title: string;
     category: string[];
+    readTime: string;
+    createdAt: Date;
+    image: string;
     upVote: number;
     downVote: number;
-    image: string;
     comment: number;
   };
-}) => {
-  const [hover, setHover] = React.useState(false);
-  const [showUpVote, setShowUpVote] = React.useState(false);
-  const [showDownVote, setShowDownVote] = React.useState(false);
+}
+const BlogItem = ({ blog }: BlogItemProps) => {
+  const { toast } = useToast();
   const [showBookmark, setShowBookmark] = React.useState(false);
+  const [vote, setVote] = React.useState(0);
 
-  const handleUpVote = () => {
-    if (showUpVote) {
-      setShowUpVote(false);
-    }
-    if (showDownVote) {
-      setShowDownVote(false);
-    }
-    if (!showUpVote) {
-      setShowUpVote(true);
-    }
-  };
-  const handleDownVote = () => {
-    if (showDownVote) {
-      setShowDownVote(false);
-    }
-    if (showUpVote) {
-      setShowUpVote(false);
-    }
-    if (!showDownVote) {
-      setShowDownVote(true);
-    }
-  };
-  const handleBookmark = () => {
+  const handleVote = React.useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const notVote = 0;
+      const upVote = 1;
+      const downVote = -1;
+      const changeVote = e.currentTarget.dataset.vote;
+      if (changeVote === 'up') {
+        setVote((prev) => (prev === upVote ? notVote : upVote));
+      }
+      if (changeVote === 'down') {
+        setVote((prev) => (prev === downVote ? notVote : downVote));
+      }
+    },
+    [setVote],
+  );
+  const handleBookmark = React.useCallback(() => {
     if (showBookmark) {
       setShowBookmark(false);
-      toast.success('Blog was removed from bookmark', {
+      toast({
+        title: 'Blog was removed from bookmark',
         description: moment().format('MMMM Do YYYY, h:mm:ss a'),
-        action: {
-          label: 'Undo',
-          onClick: () => {},
-        },
+        action: <ToastAction altText="Undo">Undo</ToastAction>,
       });
     }
     if (!showBookmark) {
       setShowBookmark(true);
-      toast.success('Blog was added to bookmark', {
+      toast({
+        title: 'Blog was add to bookmark',
         description: moment().format('MMMM Do YYYY, h:mm:ss a'),
-        action: {
-          label: 'Undo',
-          onClick: () => {},
-        },
+        action: <ToastAction altText="Undo">Undo</ToastAction>,
       });
     }
-  };
+  }, [toast, showBookmark]);
 
   return (
     <article
       className={`
-        rounded-lg border px-[16px] py-[24px] border-opacity/25 flex flex-col
+        group rounded-lg border px-4 py-6 border-opacity/25 flex flex-col
 
-        lg:bg-[#1c1f26]
+        hover:bg-lightgray
+
+        lg:bg-lightgray
       `}
-      onMouseEnter={() => {
-        setHover(true);
-      }}
-      onMouseLeave={() => {
-        setHover(false);
-      }}
     >
       <div
         className={`
-          relative flex justify-between
+          flex justify-between
 
-          lg:px-[10px]
+          lg:px-2
         `}
       >
         <div
           className={`
-            flex items-center gap-[10px]
+            flex items-center gap-2
 
             lg:flex-col lg:items-start
           `}
@@ -117,44 +103,40 @@ const BlogItem = ({
               src="https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community"
               alt="avatar"
             />
+            <AvatarFallback>
+              {blog.name.split(' ')[0].split('')[0]};
+            </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
-            <p className="author-name font-bold text-primary">{blog.name}</p>
+          <div
+            className={`
+              flex flex-col
+
+              lg:hidden
+            `}
+          >
+            <p className="font-bold text-primary">{blog.name}</p>
             <div
               className={`
-                flex gap-[5px] text-[13px] text-[#A8B3CF]
+                flex gap-1 text-sm text-textGray
 
                 lg:hidden
               `}
             >
-              <span className="read-time">{blog.readTime}</span>
-              <span>.</span>
-              <span className="">
-                {moment(blog.createdAt).format('MMM Do')}
+              <span>
+                {blog.readTime} . {moment(blog.createdAt).format('MMM Do')}
               </span>
             </div>
           </div>
         </div>
-        <div
-          className={`
-            blog-action right-0 flex gap-[5px]
-
-            lg:absolute
-          `}
-        >
+        <div className={`flex gap-1`}>
           <Button
+            variant={'link'}
             className={`
-              bg-transparent px-[12px] py-0 text-[15px]
+              px-3 py-0 text-textGray
 
-              text-[#A8B3CF]
+              hover:bg-buttonHover hover:text-primary
 
-              hover:bg-[#1c1f26]
-
-              hover:text-primary
-
-              lg:${hover ? 'flex' : 'hidden'}
-
-              lg:bg-white lg:text-[#1c1f26]
+              lg:hidden lg:bg-white lg:text-background lg:group-hover:flex
             `}
           >
             <span
@@ -166,19 +148,25 @@ const BlogItem = ({
             >
               Read post
             </span>
-            <ExternalLink size={28} className="" />
+            <span
+              className={`
+                flex
+
+                sm:hidden
+              `}
+            >
+              Read
+            </span>
+            <ExternalLink size={28} />
           </Button>
           <Button
+            variant={'ghost'}
             className={`
-              bg-transparent px-[12px] py-0 text-[15px]
+              px-3 py-0 text-textGray
 
-              text-[#A8B3CF]
+              hover:bg-buttonHover hover:text-primary
 
-              hover:bg-[#1c1f26]
-
-              hover:text-primary
-
-              lg:${hover ? 'block' : 'hidden'}
+              lg:hidden lg:group-hover:block
             `}
           >
             <Ellipsis size={28} />
@@ -187,7 +175,7 @@ const BlogItem = ({
       </div>
       <div
         className={`
-          flex flex-1 flex-col justify-between gap-[5px]
+          flex flex-1 flex-col justify-between gap-1
 
           lg:flex-col
 
@@ -196,31 +184,41 @@ const BlogItem = ({
       >
         <div
           className={`
-            mt-[16px] flex flex-1 flex-col justify-between
+            mt-4 flex flex-1 flex-col justify-between
 
-            lg:px-[10px]
+            lg:px-2
           `}
         >
-          <h1 className="mb-[16px] text-[20px] font-bold">{blog.title}</h1>
-          <div className="mt-auto flex flex-wrap gap-[5px] text-[#A8B3CF]">
-            {blog.category.map((item, index) => {
+          <Link href={'#'}>
+            <h1 className="mb-4 line-clamp-3 text-xl font-bold">
+              {blog.title}
+            </h1>
+          </Link>
+          <div className="mt-auto flex flex-wrap gap-1 text-sm text-textGray">
+            {blog.category.map((item: string, index: number) => {
+              if (index > 2) return null;
               return (
-                <div key={index} className="rounded-md border px-[8px]">
+                <div key={item} className="rounded-md border px-2">
                   #{item}
                 </div>
               );
             })}
+            {blog.category.length > 3 && (
+              <div className="rounded-md border px-2">
+                +{blog.category.length - 3}
+              </div>
+            )}
           </div>
           <div
             className={`
-              hidden gap-[5px] text-[13px] text-[#A8B3CF]
+              hidden gap-1 text-sm text-textGray
 
               lg:flex
             `}
           >
-            <span className="read-time">{blog.readTime}</span>
+            <span>{blog.readTime}</span>
             <span>.</span>
-            <span className=""> {moment(blog.createdAt).format('MMM Do')}</span>
+            <span> {moment(blog.createdAt).format('MMM Do')}</span>
           </div>
         </div>
         <Image
@@ -229,107 +227,93 @@ const BlogItem = ({
           width={240}
           height={160}
           className={`
-            mt-[16px] h-[160px] w-full rounded-lg object-cover
+            mx-auto mt-4 h-48 w-11/12 rounded-lg object-cover
 
             lg:w-full
 
-            sm:w-[240px]
+            sm:w-60
           `}
         />
       </div>
       <div
         className={`
-          blog-footer mt-[16px] flex gap-[10px]
+          mt-4 flex gap-2
 
           lg:justify-between
         `}
       >
-        <div className="flex items-center rounded-lg border border-opacity/25">
-          <div
+        <div className="flex items-center rounded-lg border-opacity/25">
+          <Toggle
             className={`
-              flex items-center rounded-lg bg-transparent p-1 px-[5px]
-              text-[15px]
+              group flex items-center rounded-lg bg-transparent p-2 text-sm
+              text-textGray
 
-              ${showUpVote ? 'text-[#39e58c]' : 'text-[#A8B3CF]'}
+              data-[state=on]:bg-transparent data-[state=on]:text-emerald-600
 
-              hover:bg-[#1ddc6f3d] hover:text-[#39e58c]
+              hover:bg-like hover:text-actionTxt
             `}
-            onClick={handleUpVote}
+            data-vote="up"
+            data-state={vote === 1 ? 'on' : 'off'}
+            onClick={handleVote}
           >
             <ArrowBigUp size={24} />
             <span>{kFormatter(blog.upVote)}</span>
-          </div>
-          <div className="h-[15px] w-px bg-white opacity-25"></div>
-          <div
+          </Toggle>
+          <div className="h-4 w-px bg-white opacity-25"></div>
+          <Toggle
             className={`
-              flex items-center rounded-lg bg-transparent p-1 px-[5px]
-              text-[15px]
+              flex items-center rounded-lg bg-transparent p-2 text-sm
+              text-textGray
 
-              ${showDownVote ? 'text-[#e04337]' : 'text-[#A8B3CF]'}
+              data-[state=on]:bg-transparent data-[state=on]:text-red-600
 
-              hover:bg-[#d52b203d] hover:text-[#e04337]
+              hover:bg-unlike hover:text-actionTxt
             `}
-            onClick={handleDownVote}
+            data-vote="down"
+            data-state={vote === -1 ? 'on' : 'off'}
+            onClick={handleVote}
           >
             <ArrowBigDown size={24} />
             <span>{kFormatter(blog.downVote)}</span>
-          </div>
+          </Toggle>
         </div>
-        <div
-          className={`
-            rounded-lg border border-opacity/25 flex items-center
-
-            lg:border-0
-          `}
-        >
+        <div className={`flex cursor-pointer items-center rounded-lg`}>
           <div
             className={`
-              flex items-center rounded-lg bg-transparent p-1 text-[15px]
-              text-[#A8B3CF]
+              flex items-center rounded-lg bg-transparent p-2 text-sm
+              text-textGray
 
-              hover:bg-[#0dcfdc3d] hover:text-[#2cdce6]
+              hover:bg-comment hover:text-actionTxt
             `}
           >
-            <MessageSquareText size={24} className="hover:bg-[#0dcfdc3d]" />
+            <MessageSquareText size={24} />
             <span>{kFormatter(blog.comment)}</span>
           </div>
         </div>
-        <div
-          className={`
-            rounded-lg border border-opacity/25 flex items-center
-
-            lg:border-0
-          `}
-        >
-          <div
+        <div className={`flex items-center rounded-lg text-sm`}>
+          <Toggle
             className={`
-              flex items-center rounded-lg bg-transparent p-1 text-[15px]
+              flex items-center rounded-lg bg-transparent p-2 text-textGray
 
-              ${showBookmark ? 'text-[#ff8e3b]' : 'text-[#A8B3CF]'}
+              data-[state=on]:bg-transparent data-[state=on]:text-orange-600
 
-              hover:bg-[#ff7a2b3d] hover:text-[#ff8e3b]
+              hover:bg-bookmark hover:text-actionTxt
             `}
             onClick={handleBookmark}
           >
             <Bookmark size={24} />
-          </div>
+          </Toggle>
         </div>
-        <div
-          className={`
-            rounded-lg border border-opacity/25 flex items-center
-
-            lg:border-0
-          `}
-        >
+        <div className={`flex items-center rounded-lg`}>
           <div
             className={`
-              flex items-center rounded-lg bg-transparent p-1 text-[15px]
-              text-[#A8B3CF]
+              flex items-center rounded-lg bg-transparent p-2 text-sm
+              text-textGray
 
-              hover:bg-[#c029f03d] hover:text-[#ce3df3]
+              hover:bg-linkCopy hover:text-actionTxt
             `}
           >
-            <Link size={24} className="" />
+            <LinkIcon size={24} />
           </div>
         </div>
       </div>

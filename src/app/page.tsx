@@ -1,13 +1,15 @@
 'use client';
 
+import { cva } from 'class-variance-authority';
 import { ChevronUp, Settings2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
-import { Toaster } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui/toaster';
 
 const data: {
+  id: string;
   name: string;
   title: string;
   avatar: string;
@@ -20,6 +22,7 @@ const data: {
   comment: number;
 }[] = [
   {
+    id: '1',
     name: 'Nguyen Khanh Huan',
     title: 'Understand and Using Javascript Console Api',
     avatar:
@@ -34,9 +37,10 @@ const data: {
     comment: 20,
   },
   {
+    id: '2',
     name: 'Cao Dang Tinh',
     title:
-      'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
+      'Understand and Using Javascript Console Api Understand and Using Javascript Console Api Understand and Using Javascript Console Api Understand and Using Javascript Console Api',
     avatar:
       'https://res.cloudinary.com/daily-now/image/upload/t_logo,f_auto/v1655817725/logos/community',
     category: ['Understand', 'and', 'Using'],
@@ -49,6 +53,7 @@ const data: {
     comment: 15000,
   },
   {
+    id: '3',
     name: 'Truong Thai Dan Huy',
     title: 'Understand and Using Javascript Console Api Understand',
     avatar:
@@ -63,6 +68,7 @@ const data: {
     comment: 2000,
   },
   {
+    id: '4',
     name: 'Truong Dinh Van',
     title:
       'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
@@ -78,6 +84,7 @@ const data: {
     comment: 20000,
   },
   {
+    id: '5',
     name: 'Cao Dang Tinh',
     title:
       'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
@@ -93,6 +100,7 @@ const data: {
     comment: 15000,
   },
   {
+    id: '6',
     name: 'Truong Thai Dan Huy',
     title: 'Understand and Using Javascript Console Api Understand',
     avatar:
@@ -107,6 +115,7 @@ const data: {
     comment: 2000,
   },
   {
+    id: '7',
     name: 'Truong Dinh Van',
     title:
       'Understand and Using Javascript Console Api Understand and Using Javascript Console Api ',
@@ -122,6 +131,30 @@ const data: {
     comment: 20000,
   },
 ];
+
+const buttonToTopVariants = cva(
+  `
+    fixed bottom-3 right-3 size-8 rounded-xl flex-center cursor-pointer bg-white
+    text-black
+
+    hover:opacity-90
+
+    md:size-16
+
+    sm:size-12
+  `,
+  {
+    variants: {
+      state: {
+        active: 'flex',
+        inactive: 'hidden',
+      },
+    },
+    defaultVariants: {
+      state: 'inactive',
+    },
+  },
+);
 export default function Home() {
   const [showTopPage, setShowTopPage] = useState(false);
   useEffect(() => {
@@ -140,13 +173,25 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   return (
-    <div className="lg:px-[30px]">
-      <div className="mb-[24px] flex justify-between">
+    <div
+      className={`
+        lg:px-12
+
+        xl:px-8
+      `}
+    >
+      <div
+        className={`
+          mb-6 hidden justify-between
+
+          sm:flex
+        `}
+      >
         <Button
           className={`
-            bg-[#1c1f26] text-[#A8B3CF]
+            bg-lightgray text-textGray
 
-            hover:bg-[#a8b3cf1f] hover:text-primary
+            hover:bg-buttonHover hover:text-primary
 
             lg:hidden
           `}
@@ -169,16 +214,17 @@ export default function Home() {
           2 reading days
         </Button>
         <Button
+          variant={'outline'}
           className={`
-            bg-transparent text-[#A8B3CF]
+            text-textGray
 
-            hover:bg-transparent hover:text-primary
+            hover:bg-buttonHover hover:text-primary
 
-            lg:bg-[#1c1f26]
+            lg:bg-lightgray
           `}
         >
           Feed Settings
-          <Settings2 size={24} className="" />
+          <Settings2 size={24} />
         </Button>
       </div>
       <div
@@ -190,23 +236,14 @@ export default function Home() {
           xl:grid-cols-3
         `}
       >
-        {data.map((item, index) => (
-          <BlogItem key={index} blog={item} />
+        {data.map((item) => (
+          <BlogItem key={item.id} blog={item} />
         ))}
       </div>
       <div
-        className={`
-          fixed bottom-[10px] right-[10px] size-[32px] rounded-xl flex-center
-          cursor-pointer bg-white text-black
-
-          hover:opacity-90
-
-          md:size-[64px]
-
-          sm:size[48px]
-
-          ${showTopPage ? 'flex' : 'hidden'}
-        `}
+        className={buttonToTopVariants({
+          state: showTopPage ? 'active' : 'inactive',
+        })}
         onClick={handleClickToTop}
       >
         <ChevronUp size={32} />
