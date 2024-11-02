@@ -2,8 +2,6 @@ import '@/styles/globals.css';
 
 import type { Metadata } from 'next';
 
-import DesktopMenu from '@/components/layouts/DesktopMenu';
-import Header from '@/components/layouts/Header';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -28,24 +26,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="relative flex flex-1">
-            <DesktopMenu />
-            <div
-              className={`
-                mt-3 flex-1 px-2 pb-14
-
-                lg:ml-60 lg:mt-6 lg:px-6 lg:pb-0
-
-                md:ml-16 md:px-4
-              `}
-            >
-              {children}
-            </div>
-          </div>
           {children}
+          <Toaster />
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );
