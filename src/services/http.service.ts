@@ -8,7 +8,6 @@ import axios, {
 import _omitBy from 'lodash/omitBy';
 
 import axiosConfig from '@/configs/api.config';
-import HttpStatusCode from '@/constants/httpStatusCode';
 
 /** @class */
 export default class HttpService {
@@ -21,8 +20,6 @@ export default class HttpService {
     Object.assign(instance, this.setupInterceptorsTo(instance));
     this.instance = instance;
   }
-
-  private onRefreshToken() {}
 
   private readonly onRequest = (config: InternalAxiosRequestConfig) => {
     return config;
@@ -42,18 +39,6 @@ export default class HttpService {
   private readonly onResponseError = (
     error: AxiosError,
   ): Promise<AxiosError> => {
-    const statusCode = error?.response?.status;
-    switch (statusCode) {
-      case HttpStatusCode.UNAUTHORIZED: {
-        if (
-          typeof window !== 'undefined' &&
-          !window.location.pathname.startsWith('/auth')
-        ) {
-          window.location.replace('/auth/sign-in');
-        }
-        break;
-      }
-    }
     return Promise.reject(error);
   };
 
@@ -95,6 +80,7 @@ export default class HttpService {
       ...this.instance.defaults,
       ..._omitBy(config, 'BaseURL'),
       timeout: 10000,
+      withCredentials: true,
     };
   }
 }

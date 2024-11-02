@@ -11,9 +11,7 @@ const config: Config = {
       container: {
         center: true,
       },
-      fontFamily: {
-        'ubuntu-sans': ['var(--font-ubuntu-sans)', 'sans'],
-      },
+      fontFamily: {},
       colors: {
         pink: {
           DEFAULT: '#cc3cf2',

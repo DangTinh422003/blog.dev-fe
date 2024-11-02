@@ -80,16 +80,16 @@ const desktopMenuItems = [
 
 const linkVariants = cva(
   `
-    flex items-center justify-center gap-3 py-3 transition-all
+    flex items-center justify-center gap-3 py-3 font-medium transition-all
 
-    hover:bg-secondary hover:text-white
+    hover:bg-secondary hover:text-foreground
 
     lg:justify-start lg:px-6 lg:py-2
   `,
   {
     variants: {
       state: {
-        active: 'text-white bg-secondary',
+        active: 'bg-secondary text-white',
         inactive: '',
       },
     },
@@ -114,7 +114,7 @@ const DesktopMenu = () => {
       `}
     >
       {desktopMenuItems.map((i) => (
-        <div key={i.groupTitle} className="my-4 text-muted-foreground">
+        <div key={i.groupTitle} className="my-4 text-foreground/80">
           <p
             className={`
               hidden px-4 text-sm font-bold
