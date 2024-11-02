@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 
 import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
-import { Toaster } from '@/components/ui/toaster';
 
 const data: {
   id: string;
@@ -248,7 +247,6 @@ export default function Home() {
       >
         <ChevronUp size={32} />
       </div>
-      <Toaster />
     </div>
   );
 }

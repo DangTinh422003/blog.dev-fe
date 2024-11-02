@@ -7,6 +7,7 @@ import { Ubuntu_Sans } from 'next/font/google';
 import DesktopMenu from '@/components/layouts/DesktopMenu';
 import Header from '@/components/layouts/Header';
 import { ThemeProvider } from '@/components/ui/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
   title:
@@ -52,6 +53,7 @@ export default function RootLayout({
             >
               {children}
             </div>
+            <Toaster />
           </div>
         </ThemeProvider>
       </body>
