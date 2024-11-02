@@ -188,7 +188,7 @@ export default function Home() {
       >
         <Button
           className={`
-            bg-lightgray text-textGray
+            bg-secondary text-textGray
 
             hover:bg-buttonHover hover:text-primary
 
@@ -219,7 +219,7 @@ export default function Home() {
 
             hover:bg-buttonHover hover:text-primary
 
-            lg:bg-lightgray
+            lg:bg-secondary
           `}
         >
           Feed Settings

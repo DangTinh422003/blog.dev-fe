@@ -21,7 +21,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           storageKey="dev-blog-theme"
           enableSystem
           disableTransitionOnChange
