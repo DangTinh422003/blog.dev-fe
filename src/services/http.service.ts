@@ -84,3 +84,6 @@ export default class HttpService {
     };
   }
 }
+
+const axiosInstance = new HttpService();
+export { axiosInstance };

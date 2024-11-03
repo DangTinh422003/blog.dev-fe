@@ -2,13 +2,30 @@
 import { KeyRound, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect } from 'react';
 
+import {
+  type FormState,
+  registerAccountAction,
+} from '@/app/(auth-layout)/auth/action';
+import FormFieldError from '@/components/FormFieldError';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 
 const Register = () => {
+  const router = useRouter();
   const { toast } = useToast();
+
+  const initialFormState: FormState = {
+    status: undefined,
+  };
+
+  const [formState, formAction] = useActionState(
+    registerAccountAction,
+    initialFormState,
+  );
 
   const handleToastify = (msg: string) => {
     toast({
@@ -17,6 +34,24 @@ const Register = () => {
     });
   };
 
+  useEffect(() => {
+    if (formState?.status === 'error') {
+      toast({
+        title: 'Error',
+        description: formState.message || 'Something went wrong!',
+        variant: 'destructive',
+      });
+    } else if (formState?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: 'Account created successfully',
+        variant: 'default',
+      });
+      router.push('/auth/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState]);
+
   return (
     <div className="rounded-xl bg-background p-6">
       <h1 className="text-center text-2xl font-bold">Signup for Blog.dev</h1>
@@ -24,30 +59,50 @@ const Register = () => {
         Create your free account
       </p>
 
-      <div className="mt-10 flex flex-col gap-3">
-        <div className="flex h-12 items-center rounded-full bg-secondary px-6">
-          <Mail size={14} className="text-muted-foreground" />
-          <Input
-            placeholder="Email address"
-            type="text"
-            className="border-0 bg-transparent outline-none"
-          />
+      <form action={formAction} className="mt-10 flex flex-col gap-3">
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <Mail size={14} className="text-muted-foreground" />
+            <Input
+              placeholder="Email address"
+              type="text"
+              name="email"
+              className="border-0 bg-transparent outline-none"
+            />
+          </div>
+          {formState?.errors?.['email'] && (
+            <FormFieldError errorMsg={formState.errors?.['email'][0]} />
+          )}
         </div>
-        <div className="flex h-12 items-center rounded-full bg-secondary px-6">
-          <KeyRound size={14} className="text-muted-foreground" />
-          <Input
-            placeholder="Enter your password"
-            type="password"
-            className="border-0 bg-transparent outline-none"
-          />
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <KeyRound size={14} className="text-muted-foreground" />
+            <Input
+              name="password"
+              placeholder="Enter your password"
+              type="password"
+              className="border-0 bg-transparent outline-none"
+            />
+          </div>
+          {formState?.errors?.['password'] && (
+            <FormFieldError errorMsg={formState.errors?.['password'][0]} />
+          )}
         </div>
-        <div className="flex h-12 items-center rounded-full bg-secondary px-6">
-          <KeyRound size={14} className="text-muted-foreground" />
-          <Input
-            placeholder="Confirm your password"
-            type="password"
-            className="border-0 bg-transparent outline-none"
-          />
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <KeyRound size={14} className="text-muted-foreground" />
+            <Input
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              type="password"
+              className="border-0 bg-transparent outline-none"
+            />
+          </div>
+          {formState?.errors?.['confirmPassword'] && (
+            <FormFieldError
+              errorMsg={formState.errors?.['confirmPassword'][0]}
+            />
+          )}
         </div>
         <Button type="submit" className="rounded-full">
           Signup
@@ -135,7 +190,7 @@ const Register = () => {
             <p className="translate-y-px leading-none">Facebook</p>
           </Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
