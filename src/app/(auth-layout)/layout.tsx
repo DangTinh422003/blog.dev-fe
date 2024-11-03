@@ -3,15 +3,36 @@ import { type PropsWithChildren } from 'react';
 
 const AuthLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="grid h-screen w-screen grid-cols-2 bg-secondary">
-      <Link
-        href={'/'}
-        className="relative bg-[url(/login_bg.webp)] bg-cover bg-center"
+    <div
+      className={`
+        h-screen w-screen grid-cols-2 bg-secondary
+
+        md:grid
+      `}
+    >
+      <div
+        className={`
+          relative hidden bg-[url(/login_bg.webp)] bg-cover bg-center
+
+          md:block
+        `}
       >
-        <h2 className="ml-20 mt-20 text-4xl font-bold text-white">Blog.dev</h2>
-      </Link>
+        <Link
+          href={'/'}
+          className="ml-20 mt-20 block text-4xl font-bold text-white"
+        >
+          Blog.dev
+        </Link>
+      </div>
       <div className="flex items-center justify-center">
-        <div className="w-full max-w-md shadow-sm">{children}</div>
+        <div
+          className={`
+            flex size-full h-screen max-w-md items-center justify-center
+            shadow-sm
+          `}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

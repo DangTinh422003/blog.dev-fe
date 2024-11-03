@@ -125,7 +125,7 @@ export default function RootLayout({
       <body className={clsx(axiforma.variable, 'font-axiforma')}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           storageKey="dev-blog-theme"
           enableSystem
           disableTransitionOnChange

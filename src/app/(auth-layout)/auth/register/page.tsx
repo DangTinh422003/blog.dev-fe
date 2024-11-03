@@ -76,7 +76,7 @@ const Register = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 justify-center flex-wrap">
           <Button
             variant={'outline'}
             type="button"
