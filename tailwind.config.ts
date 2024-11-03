@@ -11,12 +11,16 @@ const config: Config = {
       container: {
         center: true,
       },
-      fontFamily: {},
+      fontFamily: {
+        axiforma: ['Axiforma', 'sans-serif'],
+      },
       colors: {
         pink: {
           DEFAULT: '#cc3cf2',
         },
-        background: 'hsl(var(--background))',
+        background: {
+          DEFAULT: 'hsl(var(--background))',
+        },
         foreground: 'hsl(var(--foreground))',
         textGray: 'hsl(var(--text-gray))',
         like: 'hsl(var(--like))',
