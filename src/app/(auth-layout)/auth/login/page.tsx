@@ -1,11 +1,22 @@
+'use client';
 import { KeyRound, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 
 const LoginPage = () => {
+  const { toast } = useToast();
+
+  const handleToastify = (msg: string) => {
+    toast({
+      title: 'Error',
+      description: msg,
+    });
+  };
+
   return (
     <div className="rounded-xl bg-background p-6">
       <h1 className="text-center text-2xl font-bold">Login to Blog.dev</h1>
@@ -38,7 +49,7 @@ const LoginPage = () => {
             flex justify-end px-6 text-xs text-muted-foreground underline
           `}
         >
-          <Link href={'/'}>Forget password</Link>
+          <Link href={'/auth/reset-password'}>Forget password</Link>
         </div>
 
         <div className="relative my-4 w-full border-t">
@@ -57,6 +68,9 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
+            onClick={() =>
+              handleToastify('Github login Feature in development!')
+            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
@@ -73,6 +87,9 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
+            onClick={() =>
+              handleToastify('Google login Feature in development!')
+            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
@@ -89,6 +106,9 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
+            onClick={() =>
+              handleToastify('Facebook login Feature in development!')
+            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
