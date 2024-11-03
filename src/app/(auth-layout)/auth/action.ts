@@ -78,3 +78,55 @@ export async function registerAccountAction(
     };
   }
 }
+
+const loginFormSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+export async function login(
+  prevState: any,
+  formData: FormData,
+): Promise<FormState> {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  const validateFields = loginFormSchema.safeParse({
+    email,
+    password,
+  });
+
+  if (!validateFields.success) {
+    const formState: FormState = {
+      status: 'error',
+      errors: validateFields.error.flatten().fieldErrors,
+      message: 'Oops! Something went wrong',
+    };
+
+    return formState;
+  }
+
+  try {
+    await axiosInstance.post('/access/sign-in', {
+      email,
+      password,
+    });
+
+    return {
+      status: 'success',
+      message: 'Login successful',
+    };
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return {
+        status: 'error',
+        message: error.response?.data?.message || 'Oops! Something went wrong',
+      };
+    }
+
+    return {
+      status: 'error',
+      message: 'Oops! Something went wrong',
+    };
+  }
+}

@@ -94,7 +94,17 @@ const Header = () => {
           <Bell />
         </Button>
 
-        <DropdownMenu>
+        <div className="flex items-center gap-2">
+          <Link href={'/auth/login'}>
+            <Button className="rounded-lg">Sign in</Button>
+          </Link>
+          <Link href={'/auth/register'}>
+            <Button className="rounded-lg" variant={'outline'}>
+              Sign up
+            </Button>
+          </Link>
+        </div>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant={'ghost'}
@@ -151,7 +161,7 @@ const Header = () => {
               <p>Sign out</p>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <div
         className={`

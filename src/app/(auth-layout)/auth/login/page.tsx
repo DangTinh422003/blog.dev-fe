@@ -2,20 +2,38 @@
 import { KeyRound, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect } from 'react';
 
+import { type FormState, login } from '@/app/(auth-layout)/auth/action';
+import FormFieldError from '@/components/FormFieldError';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
+
+const initialFormState: FormState = {
+  status: undefined,
+};
 
 const LoginPage = () => {
-  const { toast } = useToast();
+  const router = useRouter();
+  const [formState, formAction, isPending] = useActionState(
+    login,
+    initialFormState,
+  );
 
-  const handleToastify = (msg: string) => {
-    toast({
-      title: 'Error',
-      description: msg,
-    });
-  };
+  useEffect(() => {
+    if (formState?.status === 'success') {
+      toast({
+        title: 'Success',
+        description: 'Login successfully',
+        variant: 'default',
+      });
+
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formState]);
 
   return (
     <div className="rounded-xl bg-background p-6">
@@ -24,24 +42,41 @@ const LoginPage = () => {
         We&apos;ll email you a magic code for a <br /> password-free sign in
       </p>
 
-      <div className="mt-10 flex flex-col gap-3">
-        <div className="flex h-12 items-center rounded-full bg-secondary px-6">
-          <Mail size={14} className="text-muted-foreground" />
-          <Input
-            placeholder="Email address"
-            type="text"
-            className="border-0 bg-transparent outline-none"
-          />
+      <form action={formAction} className="mt-10 flex flex-col gap-3">
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <Mail size={14} className="text-muted-foreground" />
+            <Input
+              placeholder="Email address"
+              type="text"
+              name="email"
+              className="border-0 bg-transparent outline-none"
+            />
+          </div>
+          {formState?.errors?.['email'] && (
+            <FormFieldError errorMsg={formState.errors?.['email'][0]} />
+          )}
         </div>
-        <div className="flex h-12 items-center rounded-full bg-secondary px-6">
-          <KeyRound size={14} className="text-muted-foreground" />
-          <Input
-            placeholder="Enter your password"
-            type="password"
-            className="border-0 bg-transparent outline-none"
-          />
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <KeyRound size={14} className="text-muted-foreground" />
+            <Input
+              name="password"
+              placeholder="Enter your password"
+              type="password"
+              className="border-0 bg-transparent outline-none"
+            />
+          </div>
+          {formState?.errors?.['password'] && (
+            <FormFieldError errorMsg={formState.errors?.['password'][0]} />
+          )}
         </div>
-        <Button type="submit" className="rounded-full">
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="rounded-full"
+          variant={isPending ? 'loading' : 'default'}
+        >
           Login
         </Button>
         <div
@@ -68,9 +103,6 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
-            onClick={() =>
-              handleToastify('Github login Feature in development!')
-            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
@@ -87,9 +119,6 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
-            onClick={() =>
-              handleToastify('Google login Feature in development!')
-            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
@@ -106,9 +135,6 @@ const LoginPage = () => {
           <Button
             variant={'outline'}
             type="button"
-            onClick={() =>
-              handleToastify('Facebook login Feature in development!')
-            }
             className="flex flex-1 items-center justify-center text-sm"
           >
             <div className="relative size-4">
@@ -133,7 +159,7 @@ const LoginPage = () => {
             Create Account
           </Link>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

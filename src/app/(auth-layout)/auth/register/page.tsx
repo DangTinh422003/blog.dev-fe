@@ -14,13 +14,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 
+const initialFormState: FormState = {
+  status: undefined,
+};
+
 const Register = () => {
   const router = useRouter();
   const { toast } = useToast();
-
-  const initialFormState: FormState = {
-    status: undefined,
-  };
 
   const [formState, formAction, pending] = useActionState(
     registerAccountAction,
