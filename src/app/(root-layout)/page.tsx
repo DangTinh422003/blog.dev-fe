@@ -156,6 +156,7 @@ const buttonToTopVariants = cva(
 );
 export default function Home() {
   const [showTopPage, setShowTopPage] = useState(false);
+
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (window.scrollY > 200) {
@@ -168,9 +169,11 @@ export default function Home() {
       window.removeEventListener('scroll', () => {});
     };
   }, []);
+
   const handleClickToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
   return (
     <div
       className={`

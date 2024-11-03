@@ -6,6 +6,7 @@ import localFont from 'next/font/local';
 
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import StoreProvider from '@/contexts/StoreProvider';
 
 export const metadata: Metadata = {
   title:
@@ -130,8 +131,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <StoreProvider>
+            {children}
+            <Toaster />
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>

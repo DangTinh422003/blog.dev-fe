@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Bell,
   ChevronDown,
@@ -26,6 +28,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { increment } from '@/features/counter/counterSlice';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux.hook';
 
 const menuItems = [
   {
@@ -56,6 +60,10 @@ const menuItems = [
 ];
 
 const Header = () => {
+  const dispatch = useAppDispatch();
+
+  const couter = useAppSelector((state) => state.counter.value);
+
   return (
     <div
       className={`
@@ -68,6 +76,15 @@ const Header = () => {
           Blog<span className="text-primary">.dev</span>
         </p>
       </Link>
+
+      <Button
+        onClick={() => {
+          dispatch(increment());
+        }}
+      >
+        Test {couter}
+      </Button>
+
       <div
         className={`
           hidden w-96 flex-1 items-center gap-0 rounded-lg bg-secondary px-2
