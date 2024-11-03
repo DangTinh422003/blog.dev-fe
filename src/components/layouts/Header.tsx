@@ -64,8 +64,8 @@ const Header = () => {
       `}
     >
       <Link href={'/'} className="flex-1 select-none text-2xl">
-        <p className="font-bold text-primary">
-          Blog<span className="text-pink">.dev</span>
+        <p className="font-bold">
+          Blog<span className="text-primary">.dev</span>
         </p>
       </Link>
       <div
