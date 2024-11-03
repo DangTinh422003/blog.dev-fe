@@ -9,7 +9,9 @@ import { type FormState, login } from '@/app/(auth-layout)/auth/action';
 import FormFieldError from '@/components/FormFieldError';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useAppDispatch } from '@/hooks/redux.hook';
 import { toast } from '@/hooks/use-toast';
+import { setUser } from '@/stores/features/auth/authSlice';
 
 const initialFormState: FormState = {
   status: undefined,
@@ -17,6 +19,9 @@ const initialFormState: FormState = {
 
 const LoginPage = () => {
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
   const [formState, formAction, isPending] = useActionState(
     login,
     initialFormState,
@@ -30,7 +35,17 @@ const LoginPage = () => {
         variant: 'default',
       });
 
+      dispatch(setUser(formState.data.user));
+
       router.push('/');
+    } else if (formState?.status === 'error') {
+      {
+        toast({
+          title: 'Error',
+          description: formState.message,
+          variant: 'destructive',
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState]);

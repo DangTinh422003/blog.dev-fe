@@ -55,8 +55,12 @@ export default class HttpService {
     return (await this.instance.get<T>(`${url}`, config)) as T;
   }
 
-  public async post<T>(url: string, data?: T, config?: AxiosRequestConfig) {
-    return await this.instance.post<T>(url, data, config);
+  public async post<T, R>(
+    url: string,
+    data?: T,
+    config?: AxiosRequestConfig,
+  ): Promise<R> {
+    return (await this.instance.post<R>(url, data, config)) as R;
   }
 
   public async put<T>(url: string, data?: T, config?: AxiosRequestConfig) {
