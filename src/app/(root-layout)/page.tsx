@@ -133,14 +133,12 @@ const data: {
 
 const buttonToTopVariants = cva(
   `
-    fixed bottom-3 right-3 size-8 rounded-xl flex-center cursor-pointer bg-white
+    fixed bottom-3 right-3 size-8 rounded-lg flex-center cursor-pointer bg-white
     text-black
 
     hover:opacity-90
 
-    md:size-16
-
-    sm:size-12
+    md:size-10
   `,
   {
     variants: {
@@ -248,7 +246,7 @@ export default function Home() {
         })}
         onClick={handleClickToTop}
       >
-        <ChevronUp size={32} />
+        <ChevronUp size={20} />
       </div>
     </div>
   );

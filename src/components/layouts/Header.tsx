@@ -29,11 +29,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux.hook';
 import { useToast } from '@/hooks/use-toast';
 import authApiService from '@/stores/features/auth/auth.service';
 import { selectUser, setUser } from '@/stores/features/auth/authSlice';
-import { increment, selectCount } from '@/stores/features/counter/counterSlice';
+import { useAppDispatch, useAppSelector } from '@/stores/store';
 
 const menuItems = [
   {
@@ -67,7 +66,6 @@ const Header = () => {
   const { toast } = useToast();
 
   const userLogined = useAppSelector(selectUser);
-  const counter = useAppSelector(selectCount);
 
   const dispatch = useAppDispatch();
 

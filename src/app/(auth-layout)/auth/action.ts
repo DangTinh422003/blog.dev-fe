@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
 
-import { axiosInstance } from '@/services/http.service';
 import authApiService from '@/stores/features/auth/auth.service';
 import { type AuthState } from '@/stores/features/auth/authSlice';
 

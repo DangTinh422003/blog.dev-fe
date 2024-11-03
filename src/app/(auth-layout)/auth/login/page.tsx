@@ -9,9 +9,9 @@ import { type FormState, login } from '@/app/(auth-layout)/auth/action';
 import FormFieldError from '@/components/FormFieldError';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAppDispatch } from '@/hooks/redux.hook';
 import { toast } from '@/hooks/use-toast';
 import { setUser } from '@/stores/features/auth/authSlice';
+import { useAppDispatch } from '@/stores/store';
 
 const initialFormState: FormState = {
   status: undefined,
