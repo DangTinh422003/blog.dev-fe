@@ -22,7 +22,7 @@ const Register = () => {
     status: undefined,
   };
 
-  const [formState, formAction] = useActionState(
+  const [formState, formAction, pending] = useActionState(
     registerAccountAction,
     initialFormState,
   );
@@ -104,7 +104,12 @@ const Register = () => {
             />
           )}
         </div>
-        <Button type="submit" className="rounded-full">
+        <Button
+          type="submit"
+          variant={pending ? 'loading' : 'default'}
+          className="rounded-full"
+          disabled={pending}
+        >
           Signup
         </Button>
 

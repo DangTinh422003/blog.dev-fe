@@ -54,7 +54,7 @@ export async function registerAccountAction(
   }
 
   try {
-    const test = await axiosInstance.post('/access/sign-up', {
+    await axiosInstance.post('/access/sign-up', {
       email,
       password,
       confirmPassword,

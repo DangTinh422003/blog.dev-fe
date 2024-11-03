@@ -1,5 +1,6 @@
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { LoaderCircle } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -28,6 +29,8 @@ const buttonVariants = cva(
         secondary: 'bg-secondary text-secondary-foreground',
         ghost: 'hover:bg-secondary hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
+        loading:
+          'bg-primary text-primary-foreground opacity-50 pointer-events-none',
       },
       size: {
         default: 'h-10 px-4 py-2',
@@ -52,7 +55,17 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
-    return (
+
+    return variant === 'loading' ? (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      >
+        <LoaderCircle className="animate-spin" />
+        {props.children}
+      </Comp>
+    ) : (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
