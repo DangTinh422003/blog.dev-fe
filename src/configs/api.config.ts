@@ -14,7 +14,10 @@ const axiosConfigs = {
 };
 const getAxiosConfig = (): AxiosRequestConfig => {
   const nodeEnv: string = process.env.NODE_ENV;
-  return axiosConfigs[nodeEnv as keyof typeof axiosConfigs];
+  return {
+    ...axiosConfigs[nodeEnv as keyof typeof axiosConfigs],
+    withCredentials: true,
+  };
 };
 
 const axiosConfig = getAxiosConfig();

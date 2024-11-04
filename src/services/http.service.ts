@@ -8,6 +8,7 @@ import axios, {
 import _omitBy from 'lodash/omitBy';
 
 import axiosConfig from '@/configs/api.config';
+import authApiService from '@/stores/features/auth/auth.service';
 
 /** @class */
 export default class HttpService {
@@ -19,6 +20,7 @@ export default class HttpService {
     const instance = axios.create({ ...axiosConfigs });
     Object.assign(instance, this.setupInterceptorsTo(instance));
     this.instance = instance;
+    this.setHttpConfigs(config);
   }
 
   private readonly onRequest = (config: InternalAxiosRequestConfig) => {
@@ -36,9 +38,22 @@ export default class HttpService {
     return response.data;
   };
 
-  private readonly onResponseError = (
+  private readonly onResponseError = async (
     error: AxiosError,
   ): Promise<AxiosError> => {
+    try {
+      if (error.status === 410) {
+        await this.instance.put('/access/refresh-token');
+      }
+
+      if (error.response?.status === 401) {
+        await authApiService.logout();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      /* empty */
+    }
+
     return Promise.reject(error);
   };
 
@@ -83,8 +98,6 @@ export default class HttpService {
     this.instance.defaults = {
       ...this.instance.defaults,
       ..._omitBy(config, 'BaseURL'),
-      timeout: 10000,
-      withCredentials: true,
     };
   }
 }
