@@ -53,7 +53,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         setVote((prev) => (prev === downVote ? notVote : downVote));
       }
     },
-    [setVote],
+    [],
   );
   const handleBookmark = React.useCallback(() => {
     if (showBookmark) {

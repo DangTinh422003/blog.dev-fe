@@ -37,6 +37,7 @@
     --link-copy: 286, 87%, 55%, 0.7;
     --action-text: 0, 0%, 100%;
     --button-hover-background: 223, 29%, 74%, 0.3;
+    --dark-gray: 216, 20%, 95%;
   }
 
   .dark {
@@ -72,6 +73,7 @@
     --link-copy: 286, 87%, 55%, 0.24;
     --action-text: 0, 0%, 100%;
     --button-hover-background: 223, 29%, 74%, 0.12;
+    --dark-gray: 216, 20%, 70%;
   }
 }
 
