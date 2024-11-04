@@ -2,7 +2,6 @@
 
 import { Field, Form, Formik } from 'formik';
 import { Camera } from 'lucide-react';
-import React from 'react';
 import * as Yup from 'yup';
 
 import { Button } from '@/components/ui/button';

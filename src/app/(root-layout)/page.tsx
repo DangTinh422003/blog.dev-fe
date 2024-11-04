@@ -1,30 +1,11 @@
 'use client';
-
-import { cva } from 'class-variance-authority';
-import { ChevronUp, Settings2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Settings2 } from 'lucide-react';
 
 import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
 import { BlogData as data } from '@/constants/mockData';
 
 export default function Home() {
-  const [showTopPage, setShowTopPage] = useState(false);
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 200) {
-        setShowTopPage(true);
-      } else {
-        setShowTopPage(false);
-      }
-    });
-    return () => {
-      window.removeEventListener('scroll', () => {});
-    };
-  }, []);
-  const handleClickToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
   return (
     <div
       className={`

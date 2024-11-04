@@ -1,6 +1,4 @@
 import { Field, Form, Formik } from 'formik';
-import { KeyRound, KeySquare, Lock } from 'lucide-react';
-import React from 'react';
 import * as Yup from 'yup';
 
 import { Button } from '@/components/ui/button';
