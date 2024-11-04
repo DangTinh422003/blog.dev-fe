@@ -1,14 +1,16 @@
 import { AxiosError } from 'axios';
 import { z } from 'zod';
 
-import { axiosInstance } from '@/services/http.service';
+import authApiService from '@/stores/features/auth/auth.service';
+import { type AuthState } from '@/stores/features/auth/authSlice';
 
-export interface FormState {
+export interface FormState<T = any> {
   status: 'success' | 'error' | undefined;
   errors?: {
     [key: string]: string[];
   };
   message?: string | null;
+  data?: T;
 }
 
 const registerFormSchema = z
@@ -54,7 +56,7 @@ export async function registerAccountAction(
   }
 
   try {
-    await axiosInstance.post('/access/sign-up', {
+    await authApiService.register({
       email,
       password,
       confirmPassword,
@@ -107,26 +109,33 @@ export async function login(
   }
 
   try {
-    await axiosInstance.post('/access/sign-in', {
+    const postData = {
       email,
       password,
-    });
+    };
+
+    const data = await authApiService.login<typeof postData, AuthState>(
+      postData,
+    );
 
     return {
       status: 'success',
       message: 'Login successful',
+      data: {
+        user: data.user,
+      },
     };
   } catch (error) {
     if (error instanceof AxiosError) {
       return {
         status: 'error',
-        message: error.response?.data?.message || 'Oops! Something went wrong',
+        message: error.response?.data?.message || 'Oops!! Something went wrong',
       };
     }
 
     return {
       status: 'error',
-      message: 'Oops! Something went wrong',
+      message: 'Oops!!! Something went wrong',
     };
   }
 }

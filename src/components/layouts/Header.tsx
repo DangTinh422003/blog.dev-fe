@@ -1,9 +1,12 @@
+'use client';
+
 import {
   Bell,
   ChevronDown,
   LayoutList,
   LogOut,
   Pencil,
+  Plus,
   Search,
   Settings,
   SlidersHorizontal,
@@ -26,6 +29,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import authApiService from '@/stores/features/auth/auth.service';
+import { selectUser, setUser } from '@/stores/features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@/stores/store';
 
 const menuItems = [
   {
@@ -56,6 +63,25 @@ const menuItems = [
 ];
 
 const Header = () => {
+  const { toast } = useToast();
+
+  const userLogined = useAppSelector(selectUser);
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await authApiService.logout();
+
+      dispatch(setUser(null));
+    } catch (error) {
+      toast({
+        title: 'Sign out failed',
+        description: 'Something went wrong, please try again later',
+      });
+    }
+  };
+
   return (
     <div
       className={`
@@ -68,6 +94,7 @@ const Header = () => {
           Blog<span className="text-primary">.dev</span>
         </p>
       </Link>
+
       <div
         className={`
           hidden w-96 flex-1 items-center gap-0 rounded-lg bg-secondary px-2
@@ -85,7 +112,10 @@ const Header = () => {
           lg:flex
         `}
       >
-        <Button className="px-6">New post</Button>
+        <Button className="flex items-center gap-1 px-6">
+          <Plus size={10} />
+          <p>New post</p>
+        </Button>
         <ModeToggle />
         <Button variant="outline" className="flex-center size-10 rounded-lg">
           <LayoutList />
@@ -94,74 +124,82 @@ const Header = () => {
           <Bell />
         </Button>
 
-        <div className="flex items-center gap-2">
-          <Link href={'/auth/login'}>
-            <Button className="rounded-lg">Sign in</Button>
-          </Link>
-          <Link href={'/auth/register'}>
-            <Button className="rounded-lg" variant={'outline'}>
-              Sign up
-            </Button>
-          </Link>
-        </div>
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={'ghost'}
-              className="flex items-center gap-2 border"
-            >
-              <Avatar className="size-6 rounded-lg">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <p className="text-sm font-normal leading-none">Cao Dang Tinh</p>
-              <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-64">
-            <DropdownMenuLabel>
-              <div className="relative size-20 overflow-hidden rounded-lg">
-                <Image
-                  src={'https://github.com/shadcn.png'}
-                  className=""
-                  sizes="auto"
-                  alt=""
-                  fill
-                />
-              </div>
-              <div className="mt-2">
-                <p className="text-xl font-bold">Cao Dang Tinh</p>
-                <p
-                  className={`flex items-center gap-1 text-xs text-foreground/70`}
-                >
-                  <span>@caodangtinh</span>
-                  <span>•</span>
-                  <span className="text-[10px]">Joined September 2024</span>
+        {!userLogined ? (
+          <div className="flex items-center gap-2">
+            <Link href={'/auth/login'}>
+              <Button className="rounded-lg">Sign in</Button>
+            </Link>
+            <Link href={'/auth/register'}>
+              <Button className="rounded-lg" variant={'outline'}>
+                Sign up
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={'ghost'}
+                className="flex items-center gap-2 border"
+              >
+                <Avatar className="size-6 rounded-lg">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <p className="text-sm font-normal leading-none">
+                  Cao Dang Tinh
                 </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+                <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-64">
+              <DropdownMenuLabel>
+                <div className="relative size-20 overflow-hidden rounded-lg">
+                  <Image
+                    src={'https://github.com/shadcn.png'}
+                    className=""
+                    sizes="auto"
+                    alt=""
+                    fill
+                  />
+                </div>
+                <div className="mt-2">
+                  <p className="text-xl font-bold">Cao Dang Tinh</p>
+                  <p
+                    className={`
+                      flex items-center gap-1 text-xs text-foreground/70
+                    `}
+                  >
+                    <span>@caodangtinh</span>
+                    <span>•</span>
+                    <span className="text-[10px]">Joined September 2024</span>
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
 
-            {menuItems.map((item) => (
+              {menuItems.map((item) => (
+                <DropdownMenuItem
+                  className={`flex cursor-pointer items-center gap-2`}
+                  key={item.label}
+                  asChild
+                >
+                  <Link href={item.href}>
+                    <item.icon />
+                    <p>{item.label}</p>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuItem
                 className={`flex cursor-pointer items-center gap-2`}
-                key={item.label}
-                asChild
+                onClick={handleLogout}
               >
-                <Link href={item.href}>
-                  <item.icon />
-                  <p>{item.label}</p>
-                </Link>
+                <LogOut />
+                <p>Sign out</p>
               </DropdownMenuItem>
-            ))}
-            <DropdownMenuItem
-              className={`flex cursor-pointer items-center gap-2`}
-            >
-              <LogOut />
-              <p>Sign out</p>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu> */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
       <div
         className={`
