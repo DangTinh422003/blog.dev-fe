@@ -1,5 +1,6 @@
 'use client';
 
+import dayjs from 'dayjs';
 import {
   Bell,
   ChevronDown,
@@ -116,7 +117,7 @@ const Header = () => {
           <Plus size={10} />
           <p>New post</p>
         </Button>
-        <ModeToggle />
+        {/* <ModeToggle /> */}
         <Button variant="outline" className="flex-center size-10 rounded-lg">
           <LayoutList />
         </Button>
@@ -143,11 +144,13 @@ const Header = () => {
                 className="flex items-center gap-2 border"
               >
                 <Avatar className="size-6 rounded-lg">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarImage
+                    src={userLogined.avatar || 'https://github.com/shadcn.png'}
+                  />
+                  <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <p className="text-sm font-normal leading-none">
-                  Cao Dang Tinh
+                  {userLogined.fullname}
                 </p>
                 <ChevronDown />
               </Button>
@@ -164,15 +167,16 @@ const Header = () => {
                   />
                 </div>
                 <div className="mt-2">
-                  <p className="text-xl font-bold">Cao Dang Tinh</p>
+                  <p className="text-xl font-bold">{userLogined.fullname}</p>
                   <p
                     className={`
                       flex items-center gap-1 text-xs text-foreground/70
                     `}
                   >
-                    <span>@caodangtinh</span>
-                    <span>•</span>
-                    <span className="text-[10px]">Joined September 2024</span>
+                    <span className="text-[10px]">
+                      Joined{' '}
+                      {dayjs(userLogined.createdAt).format('MMMM DD - YYYY')}
+                    </span>
                   </p>
                 </div>
               </DropdownMenuLabel>

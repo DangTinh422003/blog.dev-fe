@@ -6,6 +6,19 @@ import { useEffect, useState } from 'react';
 
 import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import authApiService from '@/stores/features/auth/auth.service';
+import { selectUser } from '@/stores/features/auth/authSlice';
+import { useAppSelector } from '@/stores/store';
 
 const data: {
   id: string;
@@ -152,8 +165,14 @@ const buttonToTopVariants = cva(
     },
   },
 );
+
 export default function Home() {
   const [showTopPage, setShowTopPage] = useState(false);
+  const [username, setUsername] = useState('');
+
+  const { toast } = useToast();
+
+  const user = useAppSelector(selectUser);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -172,6 +191,21 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleActiveUser = async () => {
+    try {
+      const test = await authApiService.activeUser(user?.email as string, {
+        username,
+      });
+      console.log('🚀 ~ handleActiveUser ~ test:', test);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong, please try again!',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div
       className={`
@@ -187,6 +221,39 @@ export default function Home() {
           sm:flex
         `}
       >
+        {user?.isActivated && (
+          <Dialog open={true}>
+            <DialogContent
+              className={`
+                [&>button]:hidden
+
+                sm:max-w-[425px]
+              `}
+            >
+              <DialogHeader>
+                <DialogTitle>Update your profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you&apos;re
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+
+              <Input
+                placeholder="Enter your name..."
+                className="bg-primary/10"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+
+              <DialogFooter>
+                <Button type="button" onClick={handleActiveUser}>
+                  Update
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
+
         <Button
           className={`
             bg-secondary text-textGray

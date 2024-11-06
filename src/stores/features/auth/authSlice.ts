@@ -10,6 +10,8 @@ export interface AuthState {
     followingNumber: number;
     isActivated: boolean;
     createdAt: Date;
+    email: string;
+    avatar: string;
   } | null;
 }
 

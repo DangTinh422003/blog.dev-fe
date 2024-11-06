@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         autoComplete="off"
         className={cn(
           `
-            flex h-10 w-full rounded-md bg-background px-3 py-2 text-sm
+            flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm
 
             disabled:cursor-not-allowed disabled:opacity-50
 
