@@ -21,6 +21,12 @@ import { Toggle } from '@/components/ui/toggle';
 import { useToast } from '@/hooks/use-toast';
 import { kFormatter } from '@/utils/formatNumber.util';
 
+enum Vote {
+  notVote = 0,
+  upVote = 1,
+  downVote = -1,
+}
+
 interface BlogItemProps {
   blog: {
     id: string;
@@ -38,23 +44,19 @@ interface BlogItemProps {
 const BlogItem = ({ blog }: BlogItemProps) => {
   const { toast } = useToast();
   const [showBookmark, setShowBookmark] = React.useState(false);
-  const [vote, setVote] = React.useState(0);
-
+  const [vote, setVote] = React.useState<Vote>(Vote.notVote);
   const handleVote = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      const notVote = 0;
-      const upVote = 1;
-      const downVote = -1;
-      const changeVote = e.currentTarget.dataset.vote;
-      if (changeVote === 'up') {
-        setVote((prev) => (prev === upVote ? notVote : upVote));
-      }
-      if (changeVote === 'down') {
-        setVote((prev) => (prev === downVote ? notVote : downVote));
+      const changeVote: Vote = Number(e.currentTarget.dataset.vote);
+      if (vote !== changeVote) {
+        setVote(changeVote);
+      } else {
+        setVote(Vote.notVote);
       }
     },
-    [],
+    [vote],
   );
+
   const handleBookmark = React.useCallback(() => {
     if (showBookmark) {
       setShowBookmark(false);
@@ -252,8 +254,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-like hover:text-actionTxt
             `}
-            data-vote="up"
-            data-state={vote === 1 ? 'on' : 'off'}
+            data-vote="1"
+            data-state={vote === Vote.upVote ? 'on' : 'off'}
             onClick={handleVote}
           >
             <ArrowBigUp size={24} />
@@ -269,8 +271,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-unlike hover:text-actionTxt
             `}
-            data-vote="down"
-            data-state={vote === -1 ? 'on' : 'off'}
+            data-vote="-1"
+            data-state={vote === Vote.downVote ? 'on' : 'off'}
             onClick={handleVote}
           >
             <ArrowBigDown size={24} />

@@ -67,6 +67,9 @@ importers:
       react:
         specifier: 18.3.1
         version: 18.3.1
+      react-avatar-editor:
+        specifier: ^13.0.2
+        version: 13.0.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
@@ -104,6 +107,9 @@ importers:
       '@types/react':
         specifier: ^18.3.12
         version: 18.3.12
+      '@types/react-avatar-editor':
+        specifier: ^13.0.3
+        version: 13.0.3
       '@types/react-dom':
         specifier: ^18.3.1
         version: 18.3.1
@@ -2407,6 +2413,12 @@ packages:
     resolution:
       {
         integrity: sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==,
+      }
+
+  '@types/react-avatar-editor@13.0.3':
+    resolution:
+      {
+        integrity: sha512-icRAOKLKjkIsExFAiFSquztByJwpyTKEgnBRYSuLG2V81bM3LtQZi7hRS+Hr+4AXreq0yNRjVZiMOVeEeh6DLg==,
       }
 
   '@types/react-dom@18.3.1':
@@ -5874,6 +5886,15 @@ packages:
       }
     engines: { node: '>= 0.6' }
 
+  react-avatar-editor@13.0.2:
+    resolution:
+      {
+        integrity: sha512-a4ajbi7lwDh98kgEtSEeKMu0vs0CHTczkq4Xcxr1EiwMFH1GlgHCEtwGU8q/H5W8SeLnH4KPK8LUjEEaZXklxQ==,
+      }
+    peerDependencies:
+      react: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^0.14.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+
   react-devtools-core@5.3.2:
     resolution:
       {
@@ -8886,6 +8907,10 @@ snapshots:
 
   '@types/prop-types@15.7.13': {}
 
+  '@types/react-avatar-editor@13.0.3':
+    dependencies:
+      '@types/react': 18.3.12
+
   '@types/react-dom@18.3.1':
     dependencies:
       '@types/react': 18.3.12
@@ -11166,6 +11191,17 @@ snapshots:
       inherits: 2.0.4
 
   range-parser@1.2.1: {}
+
+  react-avatar-editor@13.0.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@babel/plugin-transform-runtime': 7.25.9(@babel/core@7.26.0)
+      '@babel/runtime': 7.26.0
+      prop-types: 15.8.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
 
   react-devtools-core@5.3.2:
     dependencies:

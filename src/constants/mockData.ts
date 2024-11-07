@@ -121,16 +121,3 @@ export const BlogData: {
     comment: 20000,
   },
 ];
-
-export const profileUser: {
-  image: string;
-  name: string;
-  username: string;
-  email: string;
-} = {
-  image:
-    'https://i.pinimg.com/474x/ac/35/8a/ac358a3557c171ea164e2e13ec36cf1a.jpg',
-  name: 'Nguyen Khanh Huan',
-  username: 'John Doe',
-  email: 'www.khanhhuan@gmail.com',
-};

@@ -1,4 +1,3 @@
-'use client';
 import { Settings2 } from 'lucide-react';
 
 import BlogItem from '@/components/home/Blogs';

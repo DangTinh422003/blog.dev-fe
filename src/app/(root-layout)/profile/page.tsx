@@ -1,21 +1,47 @@
 'use client';
 
-import React from 'react';
+import { cva } from 'class-variance-authority';
+import { useRouter } from 'next/navigation';
+import React, { useLayoutEffect } from 'react';
 
 import PasswordForm from '@/components/profile/PasswordForm';
 import ProfileForm from '@/components/profile/ProfileForm';
 import UploadImage from '@/components/profile/UploadImage';
 import { Button } from '@/components/ui/button';
-import { profileUser } from '@/constants/mockData';
+import { selectUser } from '@/stores/features/auth/authSlice';
+import { useAppSelector } from '@/stores/store';
+
+enum FormType {
+  General = 'general',
+  Password = 'password',
+}
+
+const ButtonCheck: FormType[] = [FormType.General, FormType.Password];
+
+const buttonTypeVariants = cva(
+  `
+    rounded-none border-x-0 border-t-0 bg-transparent px-0 text-xs font-medium
+    text-textGray opacity-75
+
+    hover:border-x-0 hover:border-b-4 hover:border-t-0 hover:border-primary
+  `,
+);
 
 const Profile = () => {
-  const [formType, setFormType] = React.useState('general');
+  const [formType, setFormType] = React.useState<FormType>(FormType.General);
+  const router = useRouter();
+  const user = useAppSelector(selectUser);
+  useLayoutEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
   const handleChangeForm = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const type = e.currentTarget.dataset.type;
-      const general = 'general';
-      const password = 'password';
-      setFormType(type === general ? general : password);
+      setFormType(
+        type === FormType.General ? FormType.General : FormType.Password,
+      );
     },
     [],
   );
@@ -34,43 +60,29 @@ const Profile = () => {
           sm:flex-row sm:px-0
         `}
       >
-        <UploadImage user={profileUser} />
+        <UploadImage />
         <div className="w-full flex-1 rounded-md shadow-2xl shadow-slate-300">
           <div className="bg-secondary px-8 pt-4">
             <h1 className="my-3 text-lg font-bold">Edit Profile</h1>
             <div className="flex gap-6">
-              <Button
-                data-type="general"
-                onClick={handleChangeForm}
-                className={`
-                  rounded-none border-x-0 border-t-0 bg-transparent px-0 text-xs
-                  font-medium text-textGray opacity-75
-
-                  hover:border-x-0 hover:border-b-4 hover:border-t-0
-                  hover:border-primary
-                `}
-              >
-                User Info
-              </Button>
-              <Button
-                data-type="password"
-                onClick={handleChangeForm}
-                className={`
-                  rounded-none border-x-0 border-t-0 bg-transparent px-0 text-xs
-                  font-medium text-textGray opacity-75
-
-                  hover:border-x-0 hover:border-b-4 hover:border-t-0
-                  hover:border-primary
-                `}
-              >
-                Change Password
-              </Button>
+              {ButtonCheck.map((item) => {
+                return (
+                  <Button
+                    key={item}
+                    data-type={item}
+                    onClick={handleChangeForm}
+                    className={buttonTypeVariants()}
+                  >
+                    {item == FormType.General ? 'User Info' : 'Change Password'}
+                  </Button>
+                );
+              })}
             </div>
           </div>
 
           <div className="px-8 py-4">
-            {formType === 'password' && <PasswordForm />}
-            {formType === 'general' && <ProfileForm user={profileUser} />}
+            {formType === FormType.Password && <PasswordForm />}
+            {formType === FormType.General && <ProfileForm />}
           </div>
         </div>
       </div>

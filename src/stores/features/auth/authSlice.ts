@@ -4,12 +4,14 @@ import { type RootState } from '@/stores/store';
 
 export interface AuthState {
   user: {
+    email: string;
     _id: string;
-    fullname: string;
+    fullName: string;
     followerNumber: number;
     followingNumber: number;
     isActivated: boolean;
     createdAt: Date;
+    image: string;
   } | null;
 }
 

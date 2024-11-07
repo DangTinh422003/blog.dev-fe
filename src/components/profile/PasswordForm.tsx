@@ -1,6 +1,7 @@
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
+import FormField from '@/components/profile/FormField';
 import { Button } from '@/components/ui/button';
 
 interface PasswordFormValues {
@@ -41,115 +42,33 @@ const PasswordForm = () => {
         validationSchema={PasswordChangeSchema}
         onSubmit={handleSubmitForm}
       >
-        {({ errors, touched }) => {
-          return (
-            <Form>
-              <h1 className="font-bold">Change password</h1>
+        <Form>
+          <h1 className="font-bold">Change password</h1>
 
-              <div className="mt-4 grid grid-cols-1 gap-6">
-                <div className="w-full">
-                  <label
-                    className="ml-2 text-xs font-medium text-textGray/80"
-                    htmlFor="currentPassword"
-                  >
-                    Current Password
-                  </label>
-                  <div
-                    className={`
-                      flex w-full items-center gap-3 rounded-full bg-secondary
-                      px-2 py-4
-                    `}
-                  >
-                    <Field
-                      type="password"
-                      id="currentPassword"
-                      name="currentPassword"
-                      placeholder="Enter current password"
-                      className={`
-                        w-full border-none bg-transparent px-3 text-sm
-                        outline-none
-
-                        hover:border-none hover:outline-none
-                      `}
-                    />
-                  </div>
-                  {errors.currentPassword && touched.currentPassword && (
-                    <p className="mt-2 text-sm italic text-red-500">
-                      {errors.currentPassword}
-                    </p>
-                  )}
-                </div>
-                <div className="w-full">
-                  <label
-                    className="ml-2 text-xs font-medium text-textGray/80"
-                    htmlFor="newPassword"
-                  >
-                    New Password
-                  </label>
-                  <div
-                    className={`
-                      flex w-full items-center gap-3 rounded-full bg-secondary
-                      px-2 py-4
-                    `}
-                  >
-                    <Field
-                      type="password"
-                      id="newPassword"
-                      name="newPassword"
-                      placeholder="Enter new password"
-                      className={`
-                        w-full border-none bg-transparent px-3 text-sm
-                        outline-none
-
-                        hover:border-none hover:outline-none
-                      `}
-                    />
-                  </div>
-                  {errors.newPassword && touched.newPassword && (
-                    <p className="mt-2 text-sm italic text-red-500">
-                      {errors.newPassword}
-                    </p>
-                  )}
-                </div>
-                <div className="w-full">
-                  <label
-                    className="ml-2 text-xs font-medium text-textGray/80"
-                    htmlFor="email"
-                  >
-                    Confirm Password
-                  </label>
-                  <div
-                    className={`
-                      flex w-full items-center gap-3 rounded-full bg-secondary
-                      px-2 py-4
-                    `}
-                  >
-                    <Field
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      placeholder="Enter confirm password"
-                      className={`
-                        w-full border-none bg-transparent px-3 text-sm
-                        outline-none
-
-                        hover:border-none hover:outline-none
-                      `}
-                    />
-                  </div>
-                  {errors.confirmPassword && touched.confirmPassword && (
-                    <p className="mt-2 text-sm italic text-red-500">
-                      {errors.confirmPassword}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <Button type="submit" className="mt-6">
-                Submit
-              </Button>
-            </Form>
-          );
-        }}
+          <div className="mt-4 grid grid-cols-1 gap-6">
+            <FormField
+              name="currentPassword"
+              label="Current Password"
+              type="password"
+              placeholder="Enter current password"
+            />
+            <FormField
+              name="newPassword"
+              label="New Password"
+              type="password"
+              placeholder="Enter new password"
+            />
+            <FormField
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              placeholder="Enter confirm password"
+            />
+          </div>
+          <Button type="submit" className="mt-6">
+            Submit
+          </Button>
+        </Form>
       </Formik>
     </div>
   );
