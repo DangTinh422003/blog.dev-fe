@@ -14,8 +14,22 @@ class AuthApiService extends HttpService {
   logout() {
     return this.delete('/access/sign-out');
   }
+
+  refreshToken() {
+    return this.put('/access/refresh-token');
+  }
+
+  activeUser<T>(email: string, data: T) {
+    return this.patch('/user/active', {
+      email,
+      newData: data,
+    });
+  }
+
+  test() {
+    return this.get('/test');
+  }
 }
 
 const authApiService = new AuthApiService();
-
 export default authApiService;

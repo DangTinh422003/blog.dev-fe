@@ -31,6 +31,7 @@ const UploadImage = () => {
           }
         };
       }
+      setPreviewImage(undefined);
     },
     [],
   );
@@ -79,7 +80,7 @@ const UploadImage = () => {
         <Avatar className="size-full rounded-full object-cover">
           <AvatarImage
             className="size-full object-cover"
-            src={user.image || ''}
+            src={user.avatar || ''}
           />
           <AvatarFallback>
             {user.email.split('')[0].toUpperCase()}

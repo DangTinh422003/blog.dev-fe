@@ -76,7 +76,7 @@ const ProfileForm = () => {
           >
             <Avatar className="size-24 rounded-3xl">
               <AvatarImage
-                src={newUser?.image || ''}
+                src={newUser?.avatar || ''}
                 className="size-full object-cover"
               />
               <AvatarFallback>

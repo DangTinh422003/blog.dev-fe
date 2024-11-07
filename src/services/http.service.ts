@@ -10,21 +10,27 @@ import _omitBy from 'lodash/omitBy';
 import axiosConfig from '@/configs/api.config';
 import authApiService from '@/stores/features/auth/auth.service';
 
+interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
+
 /** @class */
 export default class HttpService {
   private readonly instance: AxiosInstance;
 
   constructor(config = axiosConfig) {
-    const axiosConfigs = config;
-
-    const instance = axios.create({ ...axiosConfigs });
+    const instance = axios.create({ ...config });
     Object.assign(instance, this.setupInterceptorsTo(instance));
     this.instance = instance;
     this.setHttpConfigs(config);
   }
 
   private readonly onRequest = (config: InternalAxiosRequestConfig) => {
-    return config;
+    const newConfig = { ...config };
+    newConfig.headers['Cache-Control'] = 'no-store';
+    newConfig.headers['Pragma'] = 'no-cache';
+    newConfig.params = { ...newConfig.params, _: new Date().getTime() };
+    return newConfig;
   };
 
   private readonly onRequestError = (
@@ -41,17 +47,22 @@ export default class HttpService {
   private readonly onResponseError = async (
     error: AxiosError,
   ): Promise<AxiosError> => {
-    try {
-      if (error.status === 410) {
+    const originalRequest: CustomInternalAxiosRequestConfig = error.config!;
+    if (error.response?.status === 410 && !originalRequest._retry) {
+      try {
+        originalRequest._retry = true;
         await this.instance.put('/access/refresh-token');
-      }
-
-      if (error.response?.status === 401) {
+        return this.instance({ ...originalRequest });
+      } catch (_error) {
         await authApiService.logout();
+        localStorage.clear();
+        location.href = '/auth/login';
+        return Promise.reject(new Error(String(_error)));
       }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      /* empty */
+    }
+
+    if (error.response?.status === 401) {
+      // handle log out
     }
 
     return Promise.reject(error);
@@ -101,6 +112,3 @@ export default class HttpService {
     };
   }
 }
-
-const axiosInstance = new HttpService();
-export { axiosInstance };
