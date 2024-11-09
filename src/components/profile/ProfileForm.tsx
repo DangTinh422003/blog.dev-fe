@@ -13,7 +13,7 @@ import { selectUser } from '@/stores/features/auth/authSlice';
 import { useAppSelector } from '@/stores/store';
 
 export interface ProfileFormValues {
-  image?: string | File;
+  image: string;
   fullName: string;
   email: string;
 }
@@ -28,7 +28,7 @@ export const ProfileChangeSchema = Yup.object().shape<
 
 const ProfileForm = () => {
   const newUser = useAppSelector(selectUser);
-  const profileFormInitialValues = _.assign(
+  const profileFormInitialValues: Partial<ProfileFormValues> = _.assign(
     {},
     {
       fullName: newUser?.email.substring(0, newUser.email.indexOf('@')),
@@ -36,11 +36,11 @@ const ProfileForm = () => {
     },
   );
   const handleImageOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    console.log(file);
+    // const file = e.target.files?.[0];
   };
-  const handleSubmitForm = (values: any) => {
-    console.log(values);
+  const handleSubmitForm = (values: Partial<ProfileFormValues>) => {
+    //handle submit form
+    console.log('Hello');
   };
 
   if (!newUser) return null;
@@ -76,7 +76,7 @@ const ProfileForm = () => {
           >
             <Avatar className="size-24 rounded-3xl">
               <AvatarImage
-                src={newUser?.avatar || ''}
+                src={newUser?.avatar || 'https://github.com/shadcn.png'}
                 className="size-full object-cover"
               />
               <AvatarFallback>

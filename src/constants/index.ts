@@ -1,4 +1,4 @@
-export const BlogData: {
+interface BlogItems {
   id: string;
   name: string;
   title: string;
@@ -10,7 +10,9 @@ export const BlogData: {
   upVote: number;
   downVote: number;
   comment: number;
-}[] = [
+}
+
+export const BLOG_DATAS: BlogItems[] = [
   {
     id: '1',
     name: 'Nguyen Khanh Huan',

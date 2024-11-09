@@ -1,56 +1,57 @@
 'use client';
-import { Minus, Plus } from 'lucide-react';
+
+import 'react-advanced-cropper/dist/style.css';
+
 import React from 'react';
-import AvatarEditor from 'react-avatar-editor';
+import { Cropper, type CropperRef } from 'react-advanced-cropper';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { selectUser } from '@/stores/features/auth/authSlice';
 import { useAppSelector } from '@/stores/store';
+// import { dataUrlToFile } from '@/utils/dataUrlToFile.util';
 
 const UploadImage = () => {
-  const [previewImage, setPreviewImage] = React.useState<
-    string | ArrayBuffer | undefined
-  >();
-  const imageRef = React.useRef<AvatarEditor>(null);
-  const [scale, setScale] = React.useState<number>(1);
+  const [previewImage, setPreviewImage] = React.useState<string>();
+  const [cropper, setCropper] = React.useState<CropperRef>();
   const user = useAppSelector(selectUser);
-  const handleScale = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setScale(Number(e.target.value));
+
+  const handleChangeImage = (e: any) => {
+    e.preventDefault();
+    let files;
+    if (e.dataTransfer) {
+      files = e.dataTransfer.files;
+    } else if (e.target) {
+      files = e.target.files;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result as string);
+    };
+    reader.readAsDataURL(files[0]);
   };
-  const handleChangeImage = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      const reader = new FileReader();
-      if (file) {
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-          if (e.target && e.target.result) {
-            setPreviewImage(e.target.result);
-          }
-        };
-      }
-      setPreviewImage(undefined);
-    },
-    [],
-  );
+
   const handleCloseImageModal = () => {
     setPreviewImage(undefined);
   };
+  const handleChange = (cropper: CropperRef) => {
+    setCropper(cropper);
+  };
 
   const handleUploadImage = () => {
-    if (imageRef.current) {
-      const canvas = imageRef.current.getImageScaledToCanvas();
-      canvas.toBlob((blob) => {
-        const file = new File([blob as Blob], 'avatar.png', {
-          type: 'image/png',
-        });
-        console.log(file);
-      });
+    if (cropper) {
+      const cropData = cropper.getCanvas()?.toDataURL();
+      if (cropData) {
+        // const file = dataUrlToFile(cropData, 'output.png');
+        //Upload image here
+        setPreviewImage(undefined);
+      }
     }
   };
+
   if (!user) return null;
+
   return (
     <div
       className={`
@@ -80,7 +81,7 @@ const UploadImage = () => {
         <Avatar className="size-full rounded-full object-cover">
           <AvatarImage
             className="size-full object-cover"
-            src={user.avatar || ''}
+            src={user.avatar || 'https://github.com/shadcn.png'}
           />
           <AvatarFallback>
             {user.email.split('')[0].toUpperCase()}
@@ -123,7 +124,7 @@ const UploadImage = () => {
         <div
           className={`
             fixed inset-0 z-10 mt-6 flex flex-col items-center justify-center
-            bg-black bg-opacity-50
+            bg-black bg-opacity/50
           `}
         >
           <div
@@ -131,36 +132,19 @@ const UploadImage = () => {
               flex h-5/6 w-1/2 flex-col items-center rounded-lg bg-secondary
             `}
           >
-            <h1
+            <h2
               className={`
                 mb-6 w-full border-b py-6 text-center text-xl font-bold
               `}
             >
               Choose your avatar
-            </h1>
-            {typeof previewImage === 'string' && (
-              <AvatarEditor
-                image={previewImage}
-                ref={imageRef}
-                border={50}
-                borderRadius={100}
-                backgroundColor="transparent"
-                scale={scale}
-                className="size-1/2"
-              />
-            )}
-            <div className="flex w-1/2 items-center gap-2">
-              <Minus size={24} />
-              <Input
-                type="range"
-                min={1}
-                max={2}
-                step={0.01}
-                value={scale}
-                onChange={handleScale}
-              />
-              <Plus size={24} />
-            </div>
+            </h2>
+            <Cropper
+              style={{ height: 400, width: '100%' }}
+              src={previewImage}
+              className={'cropper'}
+              onChange={handleChange}
+            />
             <div
               className={`
                 mt-auto flex w-full items-center justify-end gap-2 border-t-2

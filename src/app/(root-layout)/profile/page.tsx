@@ -12,11 +12,11 @@ import { selectUser } from '@/stores/features/auth/authSlice';
 import { useAppSelector } from '@/stores/store';
 
 enum FormType {
-  General = 'general',
-  Password = 'password',
+  GENERAL = 'general',
+  PASSWORD = 'password',
 }
 
-const ButtonCheck: FormType[] = [FormType.General, FormType.Password];
+const ButtonCheck = Object.values(FormType);
 
 const buttonTypeVariants = cva(
   `
@@ -28,23 +28,16 @@ const buttonTypeVariants = cva(
 );
 
 const Profile = () => {
-  const [formType, setFormType] = React.useState<FormType>(FormType.General);
+  const [formType, setFormType] = React.useState<`${FormType}`>(
+    FormType.GENERAL,
+  );
   const router = useRouter();
   const user = useAppSelector(selectUser);
   useLayoutEffect(() => {
     if (!user) {
       router.push('/auth/login');
     }
-  }, [user, router]);
-  const handleChangeForm = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const type = e.currentTarget.dataset.type;
-      setFormType(
-        type === FormType.General ? FormType.General : FormType.Password,
-      );
-    },
-    [],
-  );
+  }, [user]);
   return (
     <div
       className={`
@@ -70,10 +63,12 @@ const Profile = () => {
                   <Button
                     key={item}
                     data-type={item}
-                    onClick={handleChangeForm}
+                    onClick={() => {
+                      setFormType(item);
+                    }}
                     className={buttonTypeVariants()}
                   >
-                    {item == FormType.General ? 'User Info' : 'Change Password'}
+                    {item == FormType.GENERAL ? 'User Info' : 'Change password'}
                   </Button>
                 );
               })}
@@ -81,8 +76,7 @@ const Profile = () => {
           </div>
 
           <div className="px-8 py-4">
-            {formType === FormType.Password && <PasswordForm />}
-            {formType === FormType.General && <ProfileForm />}
+            {formType === FormType.GENERAL ? <ProfileForm /> : <PasswordForm />}
           </div>
         </div>
       </div>

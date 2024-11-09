@@ -45,17 +45,16 @@ const BlogItem = ({ blog }: BlogItemProps) => {
   const { toast } = useToast();
   const [showBookmark, setShowBookmark] = React.useState(false);
   const [vote, setVote] = React.useState<Vote>(Vote.notVote);
-  const handleVote = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const changeVote: Vote = Number(e.currentTarget.dataset.vote);
-      if (vote !== changeVote) {
-        setVote(changeVote);
+
+  const handleVoteChange = React.useCallback((voteType: Vote) => {
+    return (e: boolean) => {
+      if (e) {
+        setVote(voteType);
       } else {
         setVote(Vote.notVote);
       }
-    },
-    [vote],
-  );
+    };
+  }, []);
 
   const handleBookmark = React.useCallback(() => {
     if (showBookmark) {
@@ -150,15 +149,6 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             >
               Read post
             </span>
-            <span
-              className={`
-                flex
-
-                sm:hidden
-              `}
-            >
-              Read
-            </span>
             <ExternalLink size={28} />
           </Button>
           <Button
@@ -225,7 +215,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         </div>
         <Image
           src={blog.image}
-          alt=""
+          alt="img"
           width={240}
           height={160}
           className={`
@@ -241,6 +231,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         className={`
           mt-4 flex gap-1
 
+          2xl:justify-start 2xl:gap-2
+
           lg:justify-between
         `}
       >
@@ -254,12 +246,11 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-like hover:text-actionTxt
             `}
-            data-vote="1"
-            data-state={vote === Vote.upVote ? 'on' : 'off'}
-            onClick={handleVote}
+            pressed={vote === Vote.upVote}
+            onPressedChange={handleVoteChange(Vote.upVote)}
           >
             <ArrowBigUp size={24} />
-            <span>{kFormatter(blog.upVote)}</span>
+            <span className="mt-1">{kFormatter(blog.upVote)}</span>
           </Toggle>
           <div className="h-4 w-px bg-white opacity-25"></div>
           <Toggle
@@ -271,12 +262,11 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-unlike hover:text-actionTxt
             `}
-            data-vote="-1"
-            data-state={vote === Vote.downVote ? 'on' : 'off'}
-            onClick={handleVote}
+            pressed={vote === Vote.downVote}
+            onPressedChange={handleVoteChange(Vote.downVote)}
           >
             <ArrowBigDown size={24} />
-            <span>{kFormatter(blog.downVote)}</span>
+            <span className="mt-1">{kFormatter(blog.downVote)}</span>
           </Toggle>
         </div>
         <div className={`flex cursor-pointer items-center rounded-lg`}>
@@ -289,7 +279,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             `}
           >
             <MessageSquareText size={24} />
-            <span>{kFormatter(blog.comment)}</span>
+            <span className="mt-1">{kFormatter(blog.comment)}</span>
           </div>
         </div>
         <div className={`flex items-center rounded-lg text-sm`}>
