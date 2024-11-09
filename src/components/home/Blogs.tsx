@@ -21,6 +21,13 @@ import { Toggle } from '@/components/ui/toggle';
 import { useToast } from '@/hooks/use-toast';
 import { kFormatter } from '@/utils/formatNumber.util';
 
+enum Vote {
+  notVote = 0,
+  upVote = 1,
+  downVote = -1,
+}
+type VoteValue = (typeof Vote)[keyof typeof Vote];
+
 interface BlogItemProps {
   blog: {
     id: string;
@@ -35,26 +42,22 @@ interface BlogItemProps {
     comment: number;
   };
 }
+
 const BlogItem = ({ blog }: BlogItemProps) => {
   const { toast } = useToast();
   const [showBookmark, setShowBookmark] = React.useState(false);
-  const [vote, setVote] = React.useState(0);
+  const [vote, setVote] = React.useState<VoteValue>(Vote.notVote);
 
-  const handleVote = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const notVote = 0;
-      const upVote = 1;
-      const downVote = -1;
-      const changeVote = e.currentTarget.dataset.vote;
-      if (changeVote === 'up') {
-        setVote((prev) => (prev === upVote ? notVote : upVote));
+  const handleVoteChange = React.useCallback((voteType: Vote) => {
+    return (e: boolean) => {
+      if (e) {
+        setVote(voteType);
+      } else {
+        setVote(Vote.notVote);
       }
-      if (changeVote === 'down') {
-        setVote((prev) => (prev === downVote ? notVote : downVote));
-      }
-    },
-    [setVote],
-  );
+    };
+  }, []);
+
   const handleBookmark = React.useCallback(() => {
     if (showBookmark) {
       setShowBookmark(false);
@@ -148,15 +151,6 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             >
               Read post
             </span>
-            <span
-              className={`
-                flex
-
-                sm:hidden
-              `}
-            >
-              Read
-            </span>
             <ExternalLink size={28} />
           </Button>
           <Button
@@ -223,7 +217,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         </div>
         <Image
           src={blog.image}
-          alt=""
+          alt="img"
           width={240}
           height={160}
           className={`
@@ -239,6 +233,8 @@ const BlogItem = ({ blog }: BlogItemProps) => {
         className={`
           mt-4 flex gap-1
 
+          2xl:justify-start 2xl:gap-2
+
           lg:justify-between
         `}
       >
@@ -252,12 +248,11 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-like hover:text-actionTxt
             `}
-            data-vote="up"
-            data-state={vote === 1 ? 'on' : 'off'}
-            onClick={handleVote}
+            pressed={vote === Vote.upVote}
+            onPressedChange={handleVoteChange(Vote.upVote)}
           >
             <ArrowBigUp size={24} />
-            <span>{kFormatter(blog.upVote)}</span>
+            <span className="mt-1">{kFormatter(blog.upVote)}</span>
           </Toggle>
           <div className="h-4 w-px bg-white opacity-25"></div>
           <Toggle
@@ -269,12 +264,11 @@ const BlogItem = ({ blog }: BlogItemProps) => {
 
               hover:bg-unlike hover:text-actionTxt
             `}
-            data-vote="down"
-            data-state={vote === -1 ? 'on' : 'off'}
-            onClick={handleVote}
+            pressed={vote === Vote.downVote}
+            onPressedChange={handleVoteChange(Vote.downVote)}
           >
             <ArrowBigDown size={24} />
-            <span>{kFormatter(blog.downVote)}</span>
+            <span className="mt-1">{kFormatter(blog.downVote)}</span>
           </Toggle>
         </div>
         <div className={`flex cursor-pointer items-center rounded-lg`}>
@@ -287,7 +281,7 @@ const BlogItem = ({ blog }: BlogItemProps) => {
             `}
           >
             <MessageSquareText size={24} />
-            <span>{kFormatter(blog.comment)}</span>
+            <span className="mt-1">{kFormatter(blog.comment)}</span>
           </div>
         </div>
         <div className={`flex items-center rounded-lg text-sm`}>

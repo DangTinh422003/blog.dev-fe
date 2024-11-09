@@ -5,7 +5,7 @@ import { type RootState } from '@/stores/store';
 export interface AuthState {
   user: {
     _id: string;
-    fullname: string;
+    fullName: string;
     followerNumber: number;
     followingNumber: number;
     isActivated: boolean;

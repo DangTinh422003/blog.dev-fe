@@ -150,7 +150,7 @@ const Header = () => {
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <p className="text-sm font-normal leading-none">
-                  {userLogined.fullname}
+                  {userLogined.fullName}
                 </p>
                 <ChevronDown />
               </Button>
@@ -167,7 +167,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="mt-2">
-                  <p className="text-xl font-bold">{userLogined.fullname}</p>
+                  <p className="text-xl font-bold">{userLogined.fullName}</p>
                   <p
                     className={`
                       flex items-center gap-1 text-xs text-foreground/70

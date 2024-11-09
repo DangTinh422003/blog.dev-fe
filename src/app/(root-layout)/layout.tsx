@@ -1,5 +1,6 @@
 import { type PropsWithChildren } from 'react';
 
+import GoToTop from '@/components/GoToTopPage';
 import DesktopMenu from '@/components/layouts/DesktopMenu';
 import Header from '@/components/layouts/Header';
 
@@ -21,6 +22,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           {children}
         </div>
       </div>
+      <GoToTop />
     </div>
   );
 };
