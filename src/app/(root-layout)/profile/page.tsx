@@ -15,6 +15,7 @@ enum FormType {
   GENERAL = 'general',
   PASSWORD = 'password',
 }
+type FormValue = (typeof FormType)[keyof typeof FormType];
 
 const ButtonCheck = Object.values(FormType);
 
@@ -28,9 +29,7 @@ const buttonTypeVariants = cva(
 );
 
 const Profile = () => {
-  const [formType, setFormType] = React.useState<`${FormType}`>(
-    FormType.GENERAL,
-  );
+  const [formType, setFormType] = React.useState<FormValue>(FormType.GENERAL);
   const router = useRouter();
   const user = useAppSelector(selectUser);
   useLayoutEffect(() => {

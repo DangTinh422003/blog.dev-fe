@@ -26,6 +26,7 @@ enum Vote {
   upVote = 1,
   downVote = -1,
 }
+type VoteValue = (typeof Vote)[keyof typeof Vote];
 
 interface BlogItemProps {
   blog: {
@@ -41,10 +42,11 @@ interface BlogItemProps {
     comment: number;
   };
 }
+
 const BlogItem = ({ blog }: BlogItemProps) => {
   const { toast } = useToast();
   const [showBookmark, setShowBookmark] = React.useState(false);
-  const [vote, setVote] = React.useState<Vote>(Vote.notVote);
+  const [vote, setVote] = React.useState<VoteValue>(Vote.notVote);
 
   const handleVoteChange = React.useCallback((voteType: Vote) => {
     return (e: boolean) => {
