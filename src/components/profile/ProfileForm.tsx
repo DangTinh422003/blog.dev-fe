@@ -40,7 +40,6 @@ const ProfileForm = () => {
   };
   const handleSubmitForm = (values: Partial<ProfileFormValues>) => {
     //handle submit form
-    console.log('Hello');
   };
 
   if (!newUser) return null;
