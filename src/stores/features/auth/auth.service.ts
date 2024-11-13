@@ -19,13 +19,6 @@ class AuthApiService extends HttpService {
     return this.put('/access/refresh-token');
   }
 
-  activeUser<T>(email: string, data: T) {
-    return this.patch('/user/active', {
-      email,
-      newData: data,
-    });
-  }
-
   test() {
     return this.get('/test');
   }

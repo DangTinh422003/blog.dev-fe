@@ -8,6 +8,7 @@ import axios, {
 import _omitBy from 'lodash/omitBy';
 
 import axiosConfig from '@/configs/api.config';
+import localStorageService from '@/services/localStorage.service';
 import authApiService from '@/stores/features/auth/auth.service';
 
 interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -55,7 +56,7 @@ export default class HttpService {
         return this.instance({ ...originalRequest });
       } catch (_error) {
         await authApiService.logout();
-        localStorage.clear();
+        localStorageService.clear();
         location.href = '/auth/login';
         return Promise.reject(new Error(String(_error)));
       }
@@ -93,8 +94,8 @@ export default class HttpService {
     return await this.instance.put<T>(url, data, config);
   }
 
-  public async patch<T>(url: string, data: T, config?: AxiosRequestConfig) {
-    return await this.instance.patch<T>(url, data, config);
+  public async patch<T, R>(url: string, data: T, config?: AxiosRequestConfig) {
+    return await this.instance.patch<R>(url, data, config);
   }
 
   public async delete(url: string, config?: AxiosRequestConfig) {

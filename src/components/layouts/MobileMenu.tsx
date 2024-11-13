@@ -57,7 +57,7 @@ const MobileMenu = () => {
     >
       <div
         className={`
-          flex flex-row gap-2 overflow-x-auto
+          flex flex-row gap-2 overflow-x-auto no-scrollbar
 
           [&::-webkit-scrollbar]:w-0
         `}
