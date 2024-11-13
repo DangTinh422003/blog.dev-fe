@@ -91,9 +91,15 @@ const Header = () => {
       `}
     >
       <Link href={'/'} className="flex-1 select-none text-2xl">
-        <p className="font-bold">
-          Blog<span className="text-primary">.dev</span>
-        </p>
+        <div className="relative h-10 w-36">
+          <Image
+            src={'/logo.png'}
+            alt=""
+            sizes="auto"
+            fill
+            className="object-contain"
+          />
+        </div>
       </Link>
 
       <div
@@ -159,7 +165,7 @@ const Header = () => {
               <DropdownMenuLabel>
                 <div className="relative size-20 overflow-hidden rounded-lg">
                   <Image
-                    src={'https://github.com/shadcn.png'}
+                    src={userLogined.avatar || 'https://github.com/shadcn.png'}
                     className=""
                     sizes="auto"
                     alt=""
