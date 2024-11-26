@@ -3,11 +3,13 @@ import { type PropsWithChildren } from 'react';
 import GoToTop from '@/components/GoToTopPage';
 import DesktopMenu from '@/components/layouts/DesktopMenu';
 import Header from '@/components/layouts/Header';
+import MobileMenu from '@/components/layouts/MobileMenu';
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className="flex flex-col">
       <Header />
+      <MobileMenu />
       <div className="relative flex flex-1">
         <DesktopMenu />
         <div
