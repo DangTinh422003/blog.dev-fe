@@ -2,7 +2,6 @@ import { AxiosError } from 'axios';
 import { z } from 'zod';
 
 import authApiService from '@/stores/features/auth/auth.service';
-import { type AuthState } from '@/stores/features/auth/authSlice';
 
 export interface FormState<T = any> {
   status: 'success' | 'error' | undefined;
@@ -15,6 +14,10 @@ export interface FormState<T = any> {
 
 const registerFormSchema = z
   .object({
+    username: z
+      .string()
+      .min(3, 'Username must be at least 3 characters')
+      .max(25, 'Username must be at most 20 characters'),
     email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z
@@ -35,11 +38,13 @@ export async function registerAccountAction(
   prevState: any,
   formData: FormData,
 ): Promise<FormState> {
+  const username = formData.get('username') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
   const confirmPassword = formData.get('confirmPassword') as string;
 
   const validateFields = registerFormSchema.safeParse({
+    username,
     email,
     password,
     confirmPassword,
@@ -57,6 +62,7 @@ export async function registerAccountAction(
 
   try {
     await authApiService.register({
+      username,
       email,
       password,
       confirmPassword,
@@ -109,21 +115,11 @@ export async function login(
   }
 
   try {
-    const postData = {
-      email,
-      password,
-    };
-
-    const data = await authApiService.login<typeof postData, AuthState>(
-      postData,
-    );
-
+    const res = await authApiService.login(email, password);
     return {
       status: 'success',
-      message: 'Login successful',
-      data: {
-        user: data.user,
-      },
+      data: res.data,
+      message: res.message,
     };
   } catch (error) {
     if (error instanceof AxiosError) {

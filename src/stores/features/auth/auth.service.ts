@@ -1,10 +1,16 @@
 'use client';
 
 import HttpService from '@/services/http.service';
+import { type AuthState } from '@/stores/features/auth/authSlice';
 
 class AuthApiService extends HttpService {
-  login<T, R>(data: T) {
-    return this.post<T, R>('/access/sign-in', data);
+  async login(email: string, password: string) {
+    const data = await this.post<AuthState['user']>('/access/sign-in', {
+      email,
+      password,
+    });
+
+    return data;
   }
 
   register<T>(data: T) {
@@ -19,8 +25,12 @@ class AuthApiService extends HttpService {
     return this.put('/access/refresh-token');
   }
 
-  test() {
-    return this.get('/test');
+  activeUser(email: string, username: string) {
+    return this.post<AuthState['user']>('/user/active', { email, username });
+  }
+
+  test<R>() {
+    return this.get<R>('/test');
   }
 }
 

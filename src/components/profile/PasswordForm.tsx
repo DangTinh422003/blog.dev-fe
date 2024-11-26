@@ -32,9 +32,7 @@ const PasswordChangeSchema = Yup.object().shape<
     .oneOf([Yup.ref('newPassword')], 'Passwords must match'),
 });
 const PasswordForm = () => {
-  const handleSubmitForm = (values: PasswordFormValues) => {
-    console.log(values);
-  };
+  const handleSubmitForm = () => {};
   return (
     <div>
       <Formik

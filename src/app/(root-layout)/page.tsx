@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 
 import BlogItem from '@/components/home/Blogs';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
 
 const data: {
   id: string;

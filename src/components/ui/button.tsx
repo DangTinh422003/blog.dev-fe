@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
   `
-    inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full
-    border border-transparent text-sm font-bold transition-colors
+    inline-flex select-none items-center justify-center gap-2 whitespace-nowrap
+    rounded-full border border-transparent text-sm font-bold transition-colors
 
     [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0
 

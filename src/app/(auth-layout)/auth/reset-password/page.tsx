@@ -20,7 +20,7 @@ const ResetPassword = () => {
           <Input
             placeholder="Email address"
             type="text"
-            className="border-0 bg-transparent outline-none"
+            className="border-0 bg-transparent !outline-none"
           />
         </div>
         <Button type="submit" className="rounded-full">

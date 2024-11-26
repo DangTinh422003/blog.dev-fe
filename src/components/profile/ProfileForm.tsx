@@ -35,13 +35,8 @@ const ProfileForm = () => {
       email: newUser?.email,
     },
   );
-  const handleImageOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const file = e.target.files?.[0];
-  };
-  const handleSubmitForm = (values: Partial<ProfileFormValues>) => {
-    //handle submit form
-    console.log('Hello');
-  };
+  const handleImageOnchange = () => {};
+  const handleSubmitForm = () => {};
 
   if (!newUser) return null;
   return (

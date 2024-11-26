@@ -65,7 +65,7 @@ const LoginPage = () => {
               placeholder="Email address"
               type="text"
               name="email"
-              className="border-0 bg-transparent outline-none"
+              className="border-0 bg-transparent !outline-none"
             />
           </div>
           {formState?.errors?.['email'] && (
@@ -79,7 +79,7 @@ const LoginPage = () => {
               name="password"
               placeholder="Enter your password"
               type="password"
-              className="border-0 bg-transparent outline-none"
+              className="border-0 bg-transparent !outline-none"
             />
           </div>
           {formState?.errors?.['password'] && (

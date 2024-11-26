@@ -28,14 +28,6 @@ export default function StoreProvider({
     persistorRef.current = makePersistor(storeRef.current);
   }
 
-  // return (
-  //   <Provider store={storeRef.current}>
-  //     <PersistGate loading={null} persistor={persistorRef.current}>
-  //       {children}
-  //     </PersistGate>
-  //   </Provider>
-  // );
-
   return persistorRef.current ? (
     <Provider store={storeRef.current}>
       <PersistGate loading={null} persistor={persistorRef.current}>

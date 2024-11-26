@@ -1,5 +1,5 @@
 'use client';
-import { KeyRound, Mail } from 'lucide-react';
+import { KeyRound, Mail, User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -62,12 +62,26 @@ const Register = () => {
       <form action={formAction} className="mt-10 flex flex-col gap-3">
         <div>
           <div className="flex h-12 items-center rounded-full bg-secondary px-6">
+            <User size={14} className="text-muted-foreground" />
+            <Input
+              placeholder="Username"
+              type="text"
+              name="username"
+              className="border-0 bg-transparent !outline-none"
+            />
+          </div>
+          {formState?.errors?.['email'] && (
+            <FormFieldError errorMsg={formState.errors?.['email'][0]} />
+          )}
+        </div>
+        <div>
+          <div className="flex h-12 items-center rounded-full bg-secondary px-6">
             <Mail size={14} className="text-muted-foreground" />
             <Input
               placeholder="Email address"
               type="text"
               name="email"
-              className="border-0 bg-transparent outline-none"
+              className="border-0 bg-transparent !outline-none"
             />
           </div>
           {formState?.errors?.['email'] && (
@@ -81,7 +95,7 @@ const Register = () => {
               name="password"
               placeholder="Enter your password"
               type="password"
-              className="border-0 bg-transparent outline-none"
+              className="border-0 bg-transparent !outline-none"
             />
           </div>
           {formState?.errors?.['password'] && (
@@ -95,7 +109,7 @@ const Register = () => {
               name="confirmPassword"
               placeholder="Confirm your password"
               type="password"
-              className="border-0 bg-transparent outline-none"
+              className="border-0 bg-transparent !outline-none"
             />
           </div>
           {formState?.errors?.['confirmPassword'] && (

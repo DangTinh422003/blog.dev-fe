@@ -36,6 +36,7 @@ const Profile = () => {
     if (!user) {
       router.push('/auth/login');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
     <div

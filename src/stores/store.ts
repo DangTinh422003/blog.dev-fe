@@ -9,7 +9,6 @@ import {
 } from 'redux-persist';
 
 import { authSlice } from '@/stores/features/auth/authSlice';
-import { counterSlice } from '@/stores/features/counter/counterSlice';
 
 const persistConfig = {
   key: 'root',
@@ -17,7 +16,6 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  counter: counterSlice.reducer,
   auth: authSlice.reducer,
 });
 

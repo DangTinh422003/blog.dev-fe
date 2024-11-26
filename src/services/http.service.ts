@@ -8,8 +8,10 @@ import axios, {
 import _omitBy from 'lodash/omitBy';
 
 import axiosConfig from '@/configs/api.config';
-import localStorageService from '@/services/localStorage.service';
+import { type Response } from '@/core/response.type';
 import authApiService from '@/stores/features/auth/auth.service';
+
+import localStorageService from './localStorage.service';
 
 interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -56,14 +58,14 @@ export default class HttpService {
         return this.instance({ ...originalRequest });
       } catch (_error) {
         await authApiService.logout();
-        localStorageService.clear();
         location.href = '/auth/login';
         return Promise.reject(new Error(String(_error)));
       }
     }
 
     if (error.response?.status === 401) {
-      // handle log out
+      await authApiService.logout();
+      localStorageService.clear();
     }
 
     return Promise.reject(error);
@@ -78,24 +80,24 @@ export default class HttpService {
     return axiosInstance;
   }
 
-  public async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return (await this.instance.get<T>(`${url}`, config)) as T;
+  public async get<R>(url: string, config?: AxiosRequestConfig) {
+    return await this.instance.get<R>(`${url}`, config);
   }
 
-  public async post<T, R>(
+  public post<T, D = unknown>(
     url: string,
-    data?: T,
+    data?: D,
     config?: AxiosRequestConfig,
-  ): Promise<R> {
-    return (await this.instance.post<R>(url, data, config)) as R;
+  ): Promise<Response<T>> {
+    return this.instance.post(url, data, config);
   }
 
   public async put<T>(url: string, data?: T, config?: AxiosRequestConfig) {
-    return await this.instance.put<T>(url, data, config);
+    return await this.instance.put(url, data, config);
   }
 
-  public async patch<T, R>(url: string, data: T, config?: AxiosRequestConfig) {
-    return await this.instance.patch<R>(url, data, config);
+  public async patch<T>(url: string, data: T, config?: AxiosRequestConfig) {
+    return await this.instance.patch(url, data, config);
   }
 
   public async delete(url: string, config?: AxiosRequestConfig) {
